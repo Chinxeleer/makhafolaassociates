@@ -1,0 +1,22 @@
+---
+// Email link that may wrap only after the "@", never mid-word. `icon` adds the Font Awesome envelope.
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { site } from "../data/site";
+import Icon from "./Icon.astro";
+
+interface Props {
+  class?: string;
+  icon?: boolean;
+  iconClass?: string;
+}
+const { class: className, icon = false, iconClass = "size-4" } = Astro.props;
+const [user, domain] = site.email.split("@");
+---
+
+<a href={`mailto:${site.email}`} class:list={["link", icon && "gap-2", className]}>
+  {icon && <Icon icon={faEnvelope} class={iconClass} />}
+  <span>
+    {user}@<wbr />
+    {domain}
+  </span>
+</a>

@@ -1,0 +1,38 @@
+---
+// Self-hosted hero loop. Astro has no <Video />: files are imported so Vite hashes them (long-cache),
+// the poster is built with getImage(), and sources are attached by src/scripts/components/hero-video.ts
+// after first paint, only on wide screens without save-data or reduced motion.
+//
+// Colour treatment (CSS only, the source file is untouched): the footage is desaturated and darkened,
+// tinted navy with a colour-blend layer (a navy duotone), then covered by the navy overlay that keeps
+// the headline readable. The poster gets the same treatment, so every visitor sees the same look.
+// The web files are greyscale, muted re-encodes of the supplied hero.mp4 (see TODO.md); the CSS treatment
+// desaturates anyway, so greyscale costs nothing visually and cuts the size about ninefold.
+import { getImage, Picture } from "astro:assets";
+import poster from "../assets/images/hero-poster.jpg";
+import heroMp4 from "../assets/videos/hero-web.mp4";
+import heroWebm from "../assets/videos/hero-web.webm";
+
+const posterAvif = await getImage({ src: poster, format: "avif", width: 1920 });
+const treatment = "absolute inset-0 size-full object-cover grayscale brightness-50";
+---
+
+<div class="absolute inset-0 isolate overflow-hidden" aria-hidden="true">
+  <Picture src={poster} formats={["avif", "webp"]} alt="" priority layout="full-width" class={treatment} />
+  <video
+    data-hero-video
+    data-src-webm={heroWebm}
+    data-src-mp4={heroMp4}
+    poster={posterAvif.src}
+    muted
+    loop
+    playsinline
+    preload="none"
+    aria-hidden="true"
+    tabindex="-1"
+    class={treatment}
+  ></video>
+  {/* Navy duotone: maps the greyscale footage onto the brand hue. */}
+  <div class="absolute inset-0 bg-navy-800 mix-blend-color"></div>
+  <div data-hero-overlay class="absolute inset-0 bg-navy-800 opacity-65"></div>
+</div>

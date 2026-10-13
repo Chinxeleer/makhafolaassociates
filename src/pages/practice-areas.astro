@@ -1,0 +1,100 @@
+---
+import Button from "../components/Button.astro";
+import ContactBand from "../components/ContactBand.astro";
+import Container from "../components/Container.astro";
+import { practiceAreas, practiceGroups } from "../data/practice-areas";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Practice areas"
+  description="Corporate, ICT and tax law; civil litigation and labour law; family, property, refugee and immigration, and medical law. Attorneys in Pretoria."
+  namespace="practice"
+>
+  <Container class="pt-36 pb-12 md:pt-44 md:pb-16">
+    <h1 data-reveal-heading class="max-w-4xl font-heading text-h1 font-semibold">
+      Practice areas
+    </h1>
+    <p class="mt-8 max-w-prose text-ink-muted">
+      Grouped by who the client usually is. Each area lists the matters we most often handle.
+    </p>
+  </Container>
+
+  {/* Mobile and tablet: horizontal chip row, pinned under the header while scrolling. */}
+  <div
+    data-area-chips-bar
+    class="sticky top-(--header-h) z-(--z-sticky) border-y border-rule bg-surface lg:hidden"
+  >
+    <nav aria-label="Practice areas" data-area-chips class="flex gap-2 overflow-x-auto px-(--gutter) py-3">
+      {practiceAreas.map((area) => (
+        <a
+          href={`#${area.slug}`}
+          data-area-link={area.slug}
+          class="inline-flex min-h-11 shrink-0 items-center rounded-input border border-rule px-4 text-small whitespace-nowrap transition-colors duration-(--dur-fast) ease-out-quart current:border-navy-800 current:bg-navy-800 current:text-on-dark"
+        >
+          {area.name}
+        </a>
+      ))}
+    </nav>
+  </div>
+
+  {/* <!-- TODO: client to review practice area copy --> */}
+  <Container class="pb-24 md:pb-32">
+    <div data-area-layout class="grid grid-cols-1 lg:grid-cols-12 lg:gap-8">
+      <aside class="hidden lg:col-span-3 lg:block">
+        <nav data-area-index aria-label="Practice areas index" class="lg:sticky lg:top-30 lg:pt-12">
+          {practiceGroups.map((group) => (
+            <div class="mb-8">
+              <p class="mb-3 text-small font-medium text-ink-muted">{group.name}</p>
+              <ul class="flex flex-col">
+                {group.areas.map((area) => (
+                  <li>
+                    <a
+                      href={`#${area.slug}`}
+                      data-area-link={area.slug}
+                      class="relative inline-flex min-h-11 items-center py-1 pl-5 text-small text-ink-muted transition-colors duration-(--dur-fast) ease-out-quart before:absolute before:top-1/2 before:left-0 before:h-px before:w-3 before:origin-left before:scale-x-0 before:bg-navy-800 before:transition-transform before:duration-(--dur-fast) before:ease-out-quart hover:text-ink current:text-ink current:before:scale-x-100"
+                    >
+                      {area.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
+      </aside>
+
+      <div class="lg:col-span-8 lg:col-start-5">
+        {practiceGroups.map((group) => (
+          <section aria-labelledby={`group-${group.slug}`} class="pt-12">
+            <h2
+              id={`group-${group.slug}`}
+              class="border-b border-rule pb-4 text-small font-medium text-ink-muted"
+            >
+              {group.name}
+            </h2>
+            {group.areas.map((area) => (
+              <article id={area.slug} data-area class="border-b border-rule py-12 md:py-16">
+                <h3 class="font-heading text-h1 font-semibold">{area.name}</h3>
+                <p class="mt-6 max-w-prose">{area.summary}</p>
+                <h4 class="mt-10 text-small font-medium text-ink-muted">Typical matters</h4>
+                <ul class="mt-4 flex max-w-prose flex-col border-t border-rule">
+                  {area.typicalMatters.map((m) => (
+                    <li class="border-b border-rule py-3">{m}</li>
+                  ))}
+                </ul>
+                <div class="mt-10">
+                  <Button href={`/contact/?area=${encodeURIComponent(area.name)}`} variant="secondary">
+                    Discuss your matter
+                  </Button>
+                </div>
+              </article>
+            ))}
+          </section>
+        ))}
+      </div>
+    </div>
+  </Container>
+
+  <ContactBand />
+</BaseLayout>

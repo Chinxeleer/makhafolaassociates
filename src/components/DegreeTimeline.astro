@@ -1,0 +1,34 @@
+---
+import { degrees } from "../data/degrees";
+
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<ol data-timeline class:list={["relative", className]} aria-label="Degrees, in order">
+  <span aria-hidden="true" class="absolute top-2 bottom-2 left-1.5 w-px bg-rule"></span>
+  <span
+    aria-hidden="true"
+    data-timeline-line
+    class="absolute top-2 bottom-2 left-1.5 w-px origin-top bg-navy-800"
+  ></span>
+  {degrees.map((degree, i) => (
+    <li class="relative flex gap-6 pb-8 last:pb-0">
+      <span
+        aria-hidden="true"
+        class="relative mt-1.5 flex size-3.5 shrink-0 items-center justify-center rounded-full border border-navy-800 bg-surface"
+      >
+        <span data-timeline-dot class="size-2 rounded-full bg-navy-800" />
+      </span>
+      <div class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4">
+        <span class="font-mono text-meta text-ink-muted">{String(i + 1).padStart(2, "0")}</span>
+        <div>
+          <p class="font-medium">{degree.title}</p>
+          <p class="font-mono text-meta text-ink-muted">{degree.institution}</p>
+        </div>
+      </div>
+    </li>
+  ))}
+</ol>

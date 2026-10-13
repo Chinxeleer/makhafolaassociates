@@ -1,0 +1,19 @@
+---
+import { steps } from "../data/firm";
+---
+
+<ol class="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-4">
+  {steps.map((step, i) => (
+    <li data-step class="flex flex-col gap-4 border-t border-rule pt-6">
+      <span class="block overflow-hidden">
+        <span data-step-number class="block font-mono text-small text-gold-700">
+          {String(i + 1).padStart(2, "0")}
+        </span>
+      </span>
+      <h3 data-step-title class="font-heading text-h3 font-semibold">
+        {step.title}
+      </h3>
+      <p class="text-ink-muted">{step.body}</p>
+    </li>
+  ))}
+</ol>

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# TODO: confirm domain (must match site.url in src/data/site.ts)
+Sitemap: https://www.makhafola-associates.co.za/sitemap-index.xml

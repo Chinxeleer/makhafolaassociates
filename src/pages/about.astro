@@ -1,0 +1,71 @@
+---
+import Container from "../components/Container.astro";
+import ContactBand from "../components/ContactBand.astro";
+import Director from "../components/Director.astro";
+import Section from "../components/Section.astro";
+import { about, values, vision } from "../data/firm";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
+// Raster copy of logo.svg (which wraps a PNG), so Astro can optimise it to WebP at build time.
+import logo from "../assets/images/logo-raster.png";
+---
+
+<BaseLayout
+  title="The firm"
+  description="Makhafola & Associates Inc. is a Pretoria law firm combining legal precision with business and technology insight, for individuals, startups and companies."
+  namespace="about"
+>
+  <Container class="grid grid-cols-1 gap-12 pt-36 pb-20 md:pt-44 md:pb-28 lg:grid-cols-12 lg:gap-8">
+    <div class="lg:col-span-7">
+      <h1 data-reveal-heading class="font-heading text-h1 font-semibold">
+        The firm
+      </h1>
+      <div class="mt-10 flex max-w-prose flex-col gap-5 text-body">
+        {about.map((p) => (
+          <p>{p}</p>
+        ))}
+      </div>
+    </div>
+    <div class="hidden lg:col-span-3 lg:col-start-10 lg:block">
+      <Image
+        src={logo}
+        alt="Makhafola & Associates Inc. logo"
+        width={330}
+        height={368}
+        loading="eager"
+        class="h-auto w-full"
+      />
+    </div>
+  </Container>
+
+  <Section size="statement" surface="navy" aria-label="Vision">
+    <figure class="grid grid-cols-1 lg:grid-cols-12">
+      <blockquote class="lg:col-span-10 lg:col-start-2">
+        <p class="font-display text-h2 font-light italic">“{vision}”</p>
+      </blockquote>
+      <figcaption class="mt-8 text-on-dark-muted lg:col-span-10 lg:col-start-2">Our vision</figcaption>
+    </figure>
+  </Section>
+
+  <Section labelledby="values-heading">
+    <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
+      <h2 id="values-heading" class="font-heading text-h1 font-semibold lg:col-span-4">
+        What we hold to
+      </h2>
+      <dl class="border-t border-rule lg:col-span-8">
+        {values.map((v) => (
+          <div class="grid grid-cols-1 gap-2 border-b border-rule py-8 md:grid-cols-8 md:gap-8">
+            <dt class="font-heading text-h2 font-semibold md:col-span-4">{v.name}</dt>
+            <dd class="text-ink-muted md:col-span-4 md:pt-3">{v.description}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </Section>
+
+  <Section size="statement" surface="surface-2" aria-label="The director">
+    <Director />
+  </Section>
+
+  <ContactBand />
+</BaseLayout>

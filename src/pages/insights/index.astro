@@ -1,0 +1,33 @@
+---
+import ContactBand from "../../components/ContactBand.astro";
+import Container from "../../components/Container.astro";
+import InsightRow from "../../components/InsightRow.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPublishedInsights } from "../../lib/insights";
+
+const entries = await getPublishedInsights();
+---
+
+<BaseLayout
+  title="Insights"
+  description="Plain-language articles on South African law for individuals and businesses: data protection, cybercrime, employment and more."
+  namespace="insights"
+>
+  <Container class="pt-36 pb-12 md:pt-44 md:pb-16">
+    <h1 data-reveal-heading class="font-heading text-h1 font-semibold">
+      Insights
+    </h1>
+    <p class="mt-8 max-w-prose text-ink-muted">
+      Notes on the law as it affects people and businesses in South Africa. General information, not legal
+      advice.
+    </p>
+  </Container>
+  <Container class="pb-24 md:pb-32">
+    <ul class="border-t border-rule">
+      {entries.map((entry) => (
+        <InsightRow entry={entry} headingLevel="h2" />
+      ))}
+    </ul>
+  </Container>
+  <ContactBand />
+</BaseLayout>

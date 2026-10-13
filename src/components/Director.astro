@@ -1,0 +1,44 @@
+---
+import { Picture } from "astro:assets";
+import portrait from "../assets/images/placeholder-director.jpg";
+import { directorBio } from "../data/firm";
+import { site } from "../data/site";
+import DegreeTimeline from "./DegreeTimeline.astro";
+import GoldRule from "./GoldRule.astro";
+
+interface Props {
+  /** Show the gold rule above the name (home only: the rule is used exactly three times sitewide). */
+  rule?: boolean;
+  headingLevel?: "h2" | "h3";
+}
+const { rule = false, headingLevel: Heading = "h2" } = Astro.props;
+---
+
+<div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
+  <div class="lg:col-span-5" data-speed="0.92">
+    <div data-portrait class="bg-surface-2">
+      {/* TODO: replace placeholder-director.jpg with the director's portrait. */}
+      <Picture
+        src={portrait}
+        formats={["avif", "webp"]}
+        alt={`Portrait of ${site.director}`}
+        widths={[480, 720, 960, 1200]}
+        sizes="(min-width: 1024px) 40vw, 100vw"
+        class="aspect-4/5 w-full object-cover"
+      />
+    </div>
+  </div>
+  <div class="flex flex-col gap-10 lg:col-span-6 lg:col-start-7 lg:pt-16">
+    <div>
+      {rule && <GoldRule tone="light" class="mb-8" />}
+      <Heading class="font-heading text-h2 font-semibold">{site.director}</Heading>
+      <p class="mt-2 text-ink-muted">Director</p>
+    </div>
+    <div class="flex max-w-prose flex-col gap-4">
+      {directorBio.map((p) => (
+        <p>{p}</p>
+      ))}
+    </div>
+    <DegreeTimeline class="mt-2" />
+  </div>
+</div>

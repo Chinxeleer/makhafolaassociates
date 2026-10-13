@@ -1,0 +1,192 @@
+---
+import { practiceGroups } from "../data/practice-areas";
+import { site } from "../data/site";
+import Button from "./Button.astro";
+import EmailLink from "./EmailLink.astro";
+
+const field =
+  "block w-full rounded-input border border-ink-muted bg-surface px-4 py-3 text-ink placeholder:text-ink-muted transition-colors duration-(--dur-fast) ease-out-quart hover:border-ink focus-visible:border-navy-800 aria-invalid:border-gold-700";
+const label = "mb-2 block text-small font-medium";
+const hint = "text-ink-muted font-normal";
+const error = "mt-2 text-small font-medium text-gold-700";
+---
+
+<div data-form-root>
+  <noscript>
+    <p class="mb-8 border border-rule p-4 text-small">
+      This form needs JavaScript to send. You can call us on{" "}
+      <a href={site.phone.href} class="link font-mono">
+        {site.phone.display}
+      </a>{" "}
+      or email <EmailLink />.
+    </p>
+  </noscript>
+
+  <div data-form-success hidden tabindex="-1" class="outline-none" role="status">
+    <h2 class="font-heading text-h2 font-semibold">
+      Thank you<span data-success-name></span>.
+    </h2>
+    <p class="mt-4 max-w-prose">
+      Your message has been sent. We will reply to the email address or phone number you gave us.
+    </p>
+  </div>
+
+  <form data-contact-form novalidate aria-labelledby="contact-form-heading" class="flex flex-col gap-6">
+    <h2 id="contact-form-heading" class="font-heading text-h2 font-semibold">
+      Send us a message
+    </h2>
+
+    <div
+      data-error-summary
+      hidden
+      tabindex="-1"
+      role="alert"
+      aria-labelledby="error-summary-title"
+      class="border border-gold-700 p-5 outline-none"
+    >
+      <h3 id="error-summary-title" class="font-medium">
+        Check the following before sending:
+      </h3>
+      <ul class="mt-3 flex flex-col gap-1 text-small"></ul>
+    </div>
+
+    <div data-form-failure hidden tabindex="-1" role="alert" class="border border-gold-700 p-5 outline-none">
+      <p class="font-medium">Your message could not be sent.</p>
+      <p class="mt-2 text-small">
+        Nothing was lost on your side: try again in a moment, or call us on{" "}
+        <a href={site.phone.href} class="link font-mono">
+          {site.phone.display}
+        </a>{" "}
+        or email <EmailLink />.
+      </p>
+    </div>
+
+    <div>
+      <label for="contact-name" class={label}>
+        Full name
+      </label>
+      <input
+        id="contact-name"
+        name="name"
+        type="text"
+        autocomplete="name"
+        required
+        class={field}
+        aria-describedby="error-name"
+      />
+      <p id="error-name" data-error-for="name" class={error} hidden></p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+      <div>
+        <label for="contact-email" class={label}>
+          Email
+        </label>
+        <input
+          id="contact-email"
+          name="email"
+          type="email"
+          autocomplete="email"
+          required
+          class={field}
+          aria-describedby="error-email"
+        />
+        <p id="error-email" data-error-for="email" class={error} hidden></p>
+      </div>
+      <div>
+        <label for="contact-phone" class={label}>
+          Phone <span class={hint}>(optional)</span>
+        </label>
+        <input
+          id="contact-phone"
+          name="phone"
+          type="tel"
+          autocomplete="tel"
+          inputmode="tel"
+          class={field}
+          aria-describedby="error-phone"
+        />
+        <p id="error-phone" data-error-for="phone" class={error} hidden></p>
+      </div>
+    </div>
+
+    <div>
+      <label for="contact-area" class={label}>
+        Practice area <span class={hint}>(optional)</span>
+      </label>
+      <select id="contact-area" name="area" class={field}>
+        <option value="">Not sure yet</option>
+        {practiceGroups.map((group) => (
+          <optgroup label={group.name}>
+            {group.areas.map((area) => (
+              <option value={area.name}>{area.name}</option>
+            ))}
+          </optgroup>
+        ))}
+      </select>
+    </div>
+
+    <div>
+      <label for="contact-message" class={label}>
+        Your matter
+      </label>
+      <p id="message-hint" class="-mt-1 mb-2 text-small text-ink-muted">
+        A short outline is enough. Please do not include ID numbers or bank details.
+      </p>
+      <textarea
+        id="contact-message"
+        name="message"
+        rows="6"
+        required
+        class={field}
+        aria-describedby="message-hint error-message"
+      ></textarea>
+      <p id="error-message" data-error-for="message" class={error} hidden></p>
+    </div>
+
+    {/* Honeypot: hidden from people and assistive technology. */}
+    <div aria-hidden="true" class="sr-only" data-honeypot>
+      <label for="contact-website">Website</label>
+      <input id="contact-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <div>
+      <div class="flex items-start gap-1">
+        {/* 44px hit area around the 24px checkbox. */}
+        <label
+          for="contact-consent"
+          class="-mt-2.5 -ml-2.5 flex size-11 shrink-0 cursor-pointer items-center justify-center"
+        >
+          <input
+            id="contact-consent"
+            name="consent"
+            type="checkbox"
+            required
+            aria-describedby="error-consent"
+            class="size-6 cursor-pointer rounded-input accent-navy-800"
+          />
+        </label>
+        <label for="contact-consent" class="cursor-pointer text-small">
+          I agree that Makhafola &amp; Associates may use these details to respond to my enquiry, as described
+          in the{" "}
+          <a href="/privacy/" class="link">
+            privacy notice
+          </a>
+          .
+        </label>
+      </div>
+      <p id="error-consent" data-error-for="consent" class={error} hidden></p>
+    </div>
+
+    <div>
+      <div id="contact-turnstile" data-turnstile tabindex="-1" class="min-h-16.25"></div>
+      <p id="error-turnstile" data-error-for="turnstile" class={error} hidden></p>
+    </div>
+
+    <div>
+      <Button type="submit" data-submit>
+        Send your message
+      </Button>
+    </div>
+  </form>
+</div>

@@ -1,16 +1,188 @@
 ---
+import Button from "../components/Button.astro";
+import ContactBand from "../components/ContactBand.astro";
+import Container from "../components/Container.astro";
+import CredentialsLine from "../components/CredentialsLine.astro";
+import Director from "../components/Director.astro";
+import GoldRule from "../components/GoldRule.astro";
+import HeroVideo from "../components/HeroVideo.astro";
+import InsightRow from "../components/InsightRow.astro";
+import PracticeAreaGroups from "../components/PracticeAreaGroups.astro";
+import Section from "../components/Section.astro";
+import Steps from "../components/Steps.astro";
+import { questionAnswers } from "../data/firm";
+import { practiceAreas } from "../data/practice-areas";
+import { site } from "../data/site";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getPublishedInsights } from "../lib/insights";
+
+const latest = (await getPublishedInsights()).slice(0, 3);
+const [wide, ...narrow] = questionAnswers;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": ["LegalService", "Attorney"],
+  "@id": `${site.url}/#firm`,
+  name: site.name,
+  description: site.tagline,
+  url: site.url,
+  telephone: site.phone.international,
+  email: site.email,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: site.address.street,
+    addressLocality: site.address.locality,
+    addressRegion: site.address.region,
+    postalCode: site.address.postalCode,
+    addressCountry: site.address.country,
+  },
+  areaServed: site.areaServed,
+  knowsAbout: practiceAreas.map((a) => a.name),
+  founder: { "@type": "Person", name: site.director, jobTitle: "Director" },
+};
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout
+  title={site.name}
+  description="Attorneys in Pretoria for individuals, startups and companies. Legal counsel from an admitted attorney with 25 years in IT, risk and cybersecurity."
+  namespace="home"
+  heroDark
+  jsonLd={jsonLd}
+>
+  {/* 1. Hero */}
+  <section
+    data-tone="dark"
+    class="relative flex min-h-svh flex-col bg-navy-800 text-on-dark"
+    aria-labelledby="hero-heading"
+  >
+    <HeroVideo />
+    <Container class="relative flex flex-1 flex-col justify-end pt-32 pb-24 md:pb-28">
+      <div class="grid grid-cols-1 lg:grid-cols-12">
+        <div class="font-hero lg:col-span-12">
+          <GoldRule class="mb-8 md:mb-10" />
+          <h1 id="hero-heading" data-reveal-heading class="max-w-6xl text-hero font-bold">
+            Legal counsel with an engineer's <em class="text-gold-300 not-italic">precision</em>.
+          </h1>
+          <p class="mt-8 max-w-xl text-body text-on-dark-muted md:mt-12">
+            Attorneys in Pretoria for individuals, startups and companies.
+          </p>
+          <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
+            <Button href="/contact/" tone="dark">
+              Book a consultation
+            </Button>
+            <Button href={site.whatsapp.href} variant="secondary" tone="dark" target="_blank" rel="noopener">
+              Message us on WhatsApp
+            </Button>
+          </div>
+        </div>
+      </div>
+    </Container>
+    <span aria-hidden="true" class="absolute bottom-0 left-1/2 hidden h-16 w-px overflow-hidden md:block">
+      <span class="block h-full w-px animate-scroll-cue bg-on-dark-muted"></span>
+    </span>
+  </section>
+
+  {/* 2. Credentials line */}
+  <section aria-label="Credentials" class="border-b border-rule bg-surface">
+    <Container class="py-8 md:py-10">
+      <CredentialsLine />
+    </Container>
+  </section>
+
+  {/* 3. Firm statement */}
+  <Section size="statement" aria-label="About the firm">
+    <div class="grid grid-cols-1 lg:grid-cols-12">
+      <div class="lg:col-span-10 lg:col-start-2">
+        <p data-read-aloud class="font-display text-h2 font-light text-ink">
+          Founded by attorney and technologist Matsobane Makhafola, Makhafola &amp; Associates brings a
+          lawyer's judgement and an engineer's rigour to every matter, for individuals, startups and
+          companies.
+        </p>
+        <a href="/about/" class="link mt-10 inline-flex min-h-11 items-center font-medium">
+          Read about the firm
+        </a>
+      </div>
+    </div>
+  </Section>
+
+  {/* 4. Question */}
+  <Section size="statement" surface="navy" labelledby="question-heading" data-question>
+    <h2 id="question-heading" data-question-headline class="max-w-5xl font-heading text-h1 font-semibold">
+      What do 25 years in technology mean for your legal matter?
+    </h2>
+    <div class="mt-16 grid grid-cols-1 gap-12 md:mt-24 lg:grid-cols-12 lg:gap-8">
+      <div data-question-answer class="border-t border-rule-dark pt-6 lg:col-span-6">
+        <h3 class="font-heading text-h2 font-semibold">{wide.title}</h3>
+        <p class="mt-6 max-w-prose text-on-dark-muted">{wide.body}</p>
+      </div>
+      {narrow.map((a, i) => (
+        <div
+          data-question-answer
+          class:list={[
+            "border-t border-rule-dark pt-6 lg:col-span-3",
+            i === 0 && "lg:col-start-7 lg:mt-24",
+            i === 1 && "lg:mt-48",
+          ]}
+        >
+          <h3 class="font-heading text-h3 font-semibold">{a.title}</h3>
+          <p class="mt-4 text-small text-on-dark-muted">{a.body}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  {/* 5. Practice areas */}
+  <Section surface="surface-2" labelledby="help-heading">
+    <div class="mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
+      <h2 id="help-heading" class="font-heading text-h1 font-semibold">
+        How we can help.
+      </h2>
+      <Button href="/practice-areas/" variant="secondary">
+        See practice areas
+      </Button>
+    </div>
+    <PracticeAreaGroups />
+  </Section>
+
+  {/* 6. Director */}
+  <Section size="statement" aria-label="The director">
+    <Director rule />
+  </Section>
+
+  {/* 7. How we work */}
+  <Section surface="surface-2" labelledby="process-heading">
+    <h2 id="process-heading" class="mb-12 font-heading text-h1 font-semibold md:mb-16">
+      How we work
+    </h2>
+    <Steps />
+    {site.portalUrl && (
+      <a
+        href={site.portalUrl}
+        rel="noopener"
+        class="link mt-12 inline-flex min-h-11 items-center font-medium"
+      >
+        Go to the client portal
+      </a>
+    )}
+  </Section>
+
+  {/* 8. Insights */}
+  <Section labelledby="insights-heading">
+    <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      <h2 id="insights-heading" class="font-heading text-h1 font-semibold">
+        Insights
+      </h2>
+      <a href="/insights/" class="link inline-flex min-h-11 items-center font-medium">
+        Read all insights
+      </a>
+    </div>
+    <ul class="border-t border-rule">
+      {latest.map((entry) => (
+        <InsightRow entry={entry} />
+      ))}
+    </ul>
+  </Section>
+
+  {/* 9. Contact */}
+  <ContactBand />
+</BaseLayout>

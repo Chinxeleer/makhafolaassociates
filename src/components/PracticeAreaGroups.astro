@@ -1,0 +1,29 @@
+---
+import { practiceGroups } from "../data/practice-areas";
+---
+
+<div class="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8">
+  {practiceGroups.map((group) => (
+    <div>
+      <h3 class="mb-6 border-b border-rule pb-4 text-small font-medium text-ink-muted">{group.name}</h3>
+      <ul data-practice-list class="flex flex-col gap-3">
+        {group.areas.map((area) => (
+          <li>
+            <a
+              href={`/practice-areas/#${area.slug}`}
+              class="group relative inline-flex min-h-11 items-center font-heading text-h3 font-medium text-ink md:text-h2"
+            >
+              <span class="relative">
+                {area.name}
+                <span
+                  aria-hidden="true"
+                  class="absolute inset-x-0 -bottom-1 h-px origin-left scale-x-0 bg-gold-700 transition-transform duration-(--dur-fast) ease-out-quart group-hover:scale-x-100 group-focus-visible:scale-x-100"
+                />
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</div>

@@ -1,0 +1,17 @@
+---
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import Icon from "./Icon.astro";
+import { site } from "../data/site";
+---
+
+<a
+  href={site.whatsapp.href}
+  aria-label={site.whatsapp.label}
+  data-tone="dark"
+  data-whatsapp
+  rel="noopener"
+  target="_blank"
+  class="fixed right-4 bottom-4 z-(--z-whatsapp) inline-flex size-13 items-center justify-center rounded-full border border-gold-500 bg-navy-800 text-on-dark transition-colors duration-(--dur-fast) ease-out-quart hover:bg-navy-600 sm:right-6 sm:bottom-6"
+>
+  <Icon icon={faWhatsapp} class="size-6" />
+</a>

@@ -1,0 +1,59 @@
+---
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import Icon from "./Icon.astro";
+import type { HTMLAttributes } from "astro/types";
+
+type Props = {
+  variant?: "primary" | "secondary";
+  tone?: "light" | "dark";
+  href?: string;
+  type?: "button" | "submit";
+  arrow?: boolean;
+  class?: string;
+} & Omit<HTMLAttributes<"a"> & HTMLAttributes<"button">, "type">;
+
+const {
+  variant = "primary",
+  tone = "light",
+  href,
+  type = "button",
+  arrow = true,
+  class: className,
+  ...rest
+} = Astro.props;
+
+const base =
+  "group inline-flex min-h-11 items-center justify-center gap-3 rounded-none border px-7 py-4 text-button font-medium transition-colors duration-(--dur-fast) ease-out-quart";
+
+const variants = {
+  primary: {
+    light: "border-navy-800 bg-navy-800 text-on-dark hover:border-navy-600 hover:bg-navy-600",
+    dark: "border-surface bg-surface text-navy-800 hover:border-surface-2 hover:bg-surface-2",
+  },
+  secondary: {
+    light: "border-ink bg-transparent text-ink hover:bg-ink hover:text-surface",
+    dark: "border-gold-500 bg-transparent text-on-dark hover:bg-navy-600",
+  },
+} as const;
+
+const classes = [base, variants[variant][tone], className];
+const Tag = href ? "a" : "button";
+---
+
+<Tag
+  class:list={classes}
+  href={href}
+  type={href ? undefined : type}
+  data-tone={tone === "dark" ? "dark" : undefined}
+  {...rest}
+>
+  <span>
+    <slot />
+  </span>
+  {arrow && (
+    <Icon
+      icon={faArrowRight}
+      class="size-3.5 transition-transform duration-(--dur-fast) ease-out-quart group-hover:translate-x-1"
+    />
+  )}
+</Tag>

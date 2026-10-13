@@ -1,0 +1,68 @@
+---
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import Icon from "./Icon.astro";
+import Logo from "./Logo.astro";
+import Button from "./Button.astro";
+import Container from "./Container.astro";
+import { nav, site } from "../data/site";
+
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => path === href || path.startsWith(href);
+---
+
+<header
+  data-site-header
+  class="fixed inset-x-0 top-0 z-(--z-header) border-b border-rule bg-surface text-ink transition-colors duration-(--dur-fast) ease-out-quart over-hero:border-transparent over-hero:bg-transparent over-hero:text-on-dark"
+>
+  <Container class="flex h-(--header-h) items-center justify-between gap-6">
+    <a
+      href="/"
+      class="-my-2 flex min-h-11 shrink-0 items-center py-2"
+      data-nav-home
+      aria-label={`${site.name}, home`}
+    >
+      <Logo />
+    </a>
+
+    <nav aria-label="Main" class="hidden lg:block">
+      <ul class="flex items-center gap-8">
+        {nav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              data-nav-link
+              aria-current={isCurrent(item.href) ? "page" : undefined}
+              class="relative inline-flex min-h-11 items-center text-small font-medium after:absolute after:inset-x-0 after:bottom-2.5 after:h-px after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-(--dur-fast) after:ease-out-quart hover:after:scale-x-100 current:after:scale-x-100"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-6">
+      <a href={site.phone.href} class="hidden min-h-11 items-center font-mono text-small xl:inline-flex">
+        {site.phone.display}
+      </a>
+      <div class="hidden md:block">
+        <Button
+          href="/contact/"
+          class="py-3 over-hero:border-surface over-hero:bg-surface over-hero:text-navy-800 over-hero:hover:border-surface-2 over-hero:hover:bg-surface-2"
+        >
+          Book a consultation
+        </Button>
+      </div>
+      <button
+        type="button"
+        data-menu-open
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        class="-mr-3 inline-flex min-h-11 items-center gap-2 px-3 text-small font-medium lg:hidden"
+      >
+        <Icon icon={faBars} class="size-4" />
+        Menu
+      </button>
+    </div>
+  </Container>
+</header>

@@ -1,0 +1,33 @@
+---
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import Icon from "./Icon.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  entry: CollectionEntry<"insights">;
+  headingLevel?: "h2" | "h3";
+}
+
+const { entry, headingLevel: Heading = "h3" } = Astro.props;
+const { title, date, readTime } = entry.data;
+const dateLabel = date.toLocaleDateString("en-ZA", { day: "numeric", month: "long", year: "numeric" });
+---
+
+<li class="border-b border-rule">
+  <a
+    href={`/insights/${entry.id}/`}
+    class="group -mx-(--gutter) flex flex-col gap-2 px-(--gutter) py-8 transition-colors duration-(--dur-fast) ease-out-quart hover:bg-surface-2 md:flex-row md:items-baseline md:gap-8"
+  >
+    <time datetime={date.toISOString()} class="shrink-0 font-mono text-meta text-ink-muted md:w-40">
+      {dateLabel}
+    </time>
+    <Heading class="flex-1 font-heading text-h3 font-semibold text-ink">{title}</Heading>
+    <span class="flex shrink-0 items-center gap-4 font-mono text-meta text-ink-muted">
+      <span>{readTime} min read</span>
+      <Icon
+        icon={faArrowRight}
+        class="size-4 text-ink transition-transform duration-(--dur-fast) ease-out-quart group-hover:translate-x-1"
+      />
+    </span>
+  </a>
+</li>

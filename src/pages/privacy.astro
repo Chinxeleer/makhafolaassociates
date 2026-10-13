@@ -1,0 +1,93 @@
+---
+import Container from "../components/Container.astro";
+import { site } from "../data/site";
+import BaseLayout from "../layouts/BaseLayout.astro";
+// TODO: legal review by the firm. This is a POPIA notice template, not a final notice.
+---
+
+<BaseLayout
+  title="Privacy notice"
+  description="How Makhafola & Associates Inc. collects, uses and protects personal information under the Protection of Personal Information Act (POPIA)."
+  namespace="privacy"
+>
+  <Container class="pt-36 pb-12 md:pt-44 md:pb-16">
+    <h1 data-reveal-heading class="font-heading text-h1 font-semibold">
+      Privacy notice
+    </h1>
+    <p class="mt-8 max-w-prose text-ink-muted">
+      This notice explains how {site.name} handles personal information under the Protection of Personal
+      Information Act 4 of 2013 (POPIA).
+    </p>
+  </Container>
+
+  <Container class="grid grid-cols-1 border-t border-rule pt-12 pb-24 md:pt-16 md:pb-32 lg:grid-cols-12 lg:gap-8">
+    <div class="prose lg:col-span-8 lg:col-start-2">
+      <h2>What we collect</h2>
+      <p>When you contact us through this website, we collect:</p>
+      <ul>
+        <li>your name, email address and, if you give it, your phone number;</li>
+        <li>the practice area you choose and the message you write;</li>
+        <li>
+          technical information needed to protect the form from abuse (a Cloudflare Turnstile check, which
+          processes your IP address and browser signals).
+        </li>
+      </ul>
+      <p>
+        When you become a client, we also collect the identity documents and information that the Financial
+        Intelligence Centre Act (FICA) requires, and the information needed to act on your matter.
+      </p>
+
+      <h2>Why we collect it</h2>
+      <ul>
+        <li>to respond to your enquiry;</li>
+        <li>to assess whether we can act for you, including conflict checks;</li>
+        <li>to provide legal services and keep the records our profession requires;</li>
+        <li>to meet our legal obligations, including under FICA.</li>
+      </ul>
+      <p>We do not sell personal information, and we do not use it for marketing without your consent.</p>
+
+      <h2>Who we share it with</h2>
+      <p>
+        We share personal information only where needed: with service providers who host this website and
+        deliver email on our behalf (under agreements that require them to protect it), with courts, counsel
+        and other parties as your matter requires, and with authorities where the law requires it. Some
+        providers may process information outside South Africa, and we only use providers subject to adequate
+        data protection.
+      </p>
+
+      <h2>How long we keep it</h2>
+      <p>
+        Enquiries that do not lead to an engagement are deleted when they are no longer needed to respond to
+        you. Client records are kept for the periods required by law and by the rules of the Legal Practice
+        Council, after which they are destroyed or de-identified.
+      </p>
+
+      <h2>Your rights</h2>
+      <p>Under POPIA you have the right to:</p>
+      <ul>
+        <li>ask whether we hold personal information about you, and request access to it;</li>
+        <li>
+          ask us to correct or delete personal information that is inaccurate, out of date or unlawfully held;
+        </li>
+        <li>object to the processing of your personal information on reasonable grounds;</li>
+        <li>lodge a complaint with the Information Regulator.</li>
+      </ul>
+
+      <h2>Cookies and analytics</h2>
+      <p>This website does not set advertising or tracking cookies.</p>
+
+      <h2>Contacting the Information Officer</h2>
+      <p>
+        Address requests or questions about this notice to our Information Officer at{" "}
+        <a href={`mailto:${site.email}`}>{site.email}</a> or {site.address.lines.join(", ")}.
+      </p>
+      <p>
+        You may also contact the Information Regulator (South Africa) through its website,{" "}
+        <a href="https://inforegulator.org.za" rel="noopener" target="_blank">
+          inforegulator.org.za
+        </a>
+        .
+      </p>
+    </div>
+  </Container>
+</BaseLayout>

@@ -1,0 +1,49 @@
+---
+import Container from "./Container.astro";
+
+interface Props {
+  size?: "statement" | "content" | "band";
+  surface?: "surface" | "surface-2" | "navy";
+  id?: string;
+  class?: string;
+  containerClass?: string;
+  labelledby?: string;
+  "aria-label"?: string;
+  [key: `data-${string}`]: string | boolean | undefined;
+}
+
+const {
+  size = "content",
+  surface = "surface",
+  id,
+  class: className,
+  containerClass,
+  labelledby,
+  ...rest
+} = Astro.props;
+
+// Padding varies on purpose: statements breathe, dense content is tighter, the contact band sits between.
+const sizes = {
+  statement: "py-24 md:py-32 lg:py-40",
+  content: "py-16 md:py-20 lg:py-24",
+  band: "py-20 md:py-24 lg:py-32",
+} as const;
+
+const surfaces = {
+  surface: "bg-surface text-ink",
+  "surface-2": "bg-surface-2 text-ink",
+  navy: "bg-navy-800 text-on-dark",
+} as const;
+---
+
+<section
+  id={id}
+  aria-labelledby={labelledby}
+  data-tone={surface === "navy" ? "dark" : undefined}
+  class:list={[sizes[size], surfaces[surface], className]}
+  {...rest}
+>
+  <Container class={containerClass}>
+    <slot />
+  </Container>
+</section>

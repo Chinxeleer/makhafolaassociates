@@ -1,0 +1,266 @@
+@import "tailwindcss";
+
+@theme {
+  --color-*: initial;
+
+  /* Brand (from the logo) */
+  --color-navy-900: oklch(0.226 0.043 259); /* footer, transition curtain */
+  --color-navy-800: oklch(0.3 0.059 259); /* primary brand navy, dark sections */
+  --color-navy-600: oklch(0.407 0.076 257); /* hover states on dark */
+  --color-gold-500: oklch(0.731 0.115 85); /* accent on DARK only: rules, focus rings, borders */
+  --color-gold-300: oklch(0.848 0.082 89); /* gold text on navy */
+  --color-gold-700: oklch(0.53 0.105 75); /* gold text/icons on LIGHT */
+
+  /* Neutrals, tinted toward navy hue 255 */
+  --color-surface: oklch(0.975 0.005 255);
+  --color-surface-2: oklch(0.945 0.008 255);
+  --color-ink: oklch(0.208 0.015 262);
+  --color-ink-muted: oklch(0.48 0.02 255);
+  --color-on-dark: oklch(0.975 0.005 255);
+  --color-on-dark-muted: oklch(0.82 0.02 255);
+  --color-rule: oklch(0.208 0.015 262 / 0.12);
+  --color-rule-dark: oklch(0.975 0.005 255 / 0.16);
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* Type scale */
+  --text-hero: clamp(3rem, 1.2rem + 7vw, 8.5rem); /* home hero statement only */
+  --text-hero--line-height: 0.95;
+  --text-hero--letter-spacing: -0.04em;
+  --text-display: clamp(2.75rem, 1.6rem + 4.6vw, 5.5rem);
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.03em;
+  --text-h1: clamp(2.25rem, 1.5rem + 3vw, 4rem);
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.03em;
+  --text-h2: clamp(1.75rem, 1.3rem + 1.9vw, 2.875rem);
+  --text-h2--line-height: 1.15;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h3: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  --text-h3--line-height: 1.15;
+  --text-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --text-body--line-height: 1.6;
+  --text-button: 0.9375rem; /* 15px, buttons only */
+  --text-button--line-height: 1.2;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.5;
+  --text-meta: 0.8125rem;
+  --text-meta--line-height: 1.5;
+
+  /* Easing (CSS hover/focus transitions only; GSAP uses motion.ts) */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+
+  /* Hero scroll cue: a 1px line travelling downward */
+  --animate-scroll-cue: scroll-cue 2.4s var(--ease-out-quart) infinite;
+
+  @keyframes scroll-cue {
+    0% {
+      transform: scaleY(0);
+      transform-origin: top;
+    }
+    50% {
+      transform: scaleY(1);
+      transform-origin: top;
+    }
+    50.1% {
+      transform-origin: bottom;
+    }
+    100% {
+      transform: scaleY(0);
+      transform-origin: bottom;
+    }
+  }
+
+  /* Layout */
+  --container-site: 1320px;
+  --container-prose: 65ch;
+  --radius-input: 2px;
+}
+
+/* Map Astro Fonts API variables to Tailwind font utilities */
+@theme inline {
+  --font-display: var(--font-newsreader);
+  --font-sans: var(--font-plex-sans);
+  --font-mono: var(--font-plex-mono);
+  --font-heading: var(--font-bricolage);
+  --font-hero: var(--font-bricolage);
+}
+
+:root {
+  --z-base: 0;
+  --z-sticky: 100;
+  --z-header: 200;
+  --z-menu: 300;
+  --z-whatsapp: 400;
+  --z-curtain: 500;
+  --z-toast: 600;
+  --gutter: clamp(16px, 4vw, 48px);
+  /* CSS hover/focus transition duration; mirrors DUR.fast in src/scripts/motion.ts */
+  --dur-fast: 350ms;
+  /* Height of the fixed header; used for anchor offsets and sticky positions. */
+  --header-h: 72px;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--header-h) + 24px);
+  }
+
+  body {
+    @apply bg-surface font-sans text-body text-ink antialiased;
+    overflow-wrap: break-word;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply text-balance;
+  }
+
+  p {
+    @apply text-pretty;
+  }
+
+  ::selection {
+    @apply bg-navy-800 text-on-dark;
+  }
+
+  /* Focus: 2px outline, navy on light, gold on dark (see [data-tone="dark"]). */
+  :focus-visible {
+    outline: 2px solid var(--color-navy-800);
+    outline-offset: 3px;
+  }
+
+  [data-tone="dark"] :focus-visible,
+  [data-tone="dark"]:focus-visible {
+    outline-color: var(--color-gold-500);
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Native dialog backdrop for the mobile menu (the menu itself is full-screen). */
+  dialog::backdrop {
+    background: var(--color-transparent);
+  }
+
+  /* SplitText line masks must clip vertically only. */
+  .split-line-mask {
+    overflow: clip;
+    padding-bottom: 0.08em;
+    margin-bottom: -0.08em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Body copy links: underline, gold on hover. Applied via the .prose-link class or inside .prose. */
+@utility link {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  text-decoration-color: currentColor;
+  transition: text-decoration-color var(--dur-fast) var(--ease-out-quart);
+
+  &:hover {
+    text-decoration-color: var(--color-gold-700);
+  }
+
+  [data-tone="dark"] &:hover {
+    text-decoration-color: var(--color-gold-300);
+  }
+}
+
+/* Long-form article body (Markdown output can't take utility classes). */
+@utility prose {
+  max-width: var(--container-prose);
+
+  & > * + * {
+    margin-top: 1.25em;
+  }
+
+  & h2 {
+    font-family: var(--font-heading);
+    font-size: var(--text-h2);
+    line-height: var(--text-h2--line-height);
+    letter-spacing: var(--text-h2--letter-spacing);
+    font-weight: 600;
+    margin-top: 2em;
+  }
+
+  & h3 {
+    font-family: var(--font-heading);
+    font-size: var(--text-h3);
+    line-height: var(--text-h3--line-height);
+    font-weight: 600;
+    margin-top: 1.75em;
+  }
+
+  & ul,
+  & ol {
+    padding-left: 1.25em;
+  }
+
+  & ul {
+    list-style: disc;
+  }
+
+  & ol {
+    list-style: decimal;
+  }
+
+  & li + li {
+    margin-top: 0.5em;
+  }
+
+  & li::marker {
+    color: var(--color-ink-muted);
+  }
+
+  & a {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+  }
+
+  & a:hover {
+    text-decoration-color: var(--color-gold-700);
+  }
+
+  & strong {
+    font-weight: 500;
+  }
+
+  & blockquote {
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
+    line-height: 1.4;
+    font-style: italic;
+    font-weight: 300;
+    padding-left: 1.5em;
+    border-left: 1px solid var(--color-rule);
+  }
+}
+
+/*
+ * Header states, toggled by src/scripts/components/header.ts via data attributes.
+ * Default (and with JS off) is the solid light header.
+ */
+@custom-variant over-hero (&:where([data-over-hero="true"], [data-over-hero="true"] *));
+@custom-variant current (&[aria-current]:not([aria-current="false"]));
+@custom-variant aria-invalid (&[aria-invalid="true"]);
+
+/* Trims a line box to cap height and baseline, so type can align exactly to other shapes (logo lockup). */
+@utility text-box-cap {
+  text-box: trim-both cap alphabetic;
+}

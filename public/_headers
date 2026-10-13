@@ -1,0 +1,15 @@
+# Security headers for every route.
+# CSP: the only third parties are Cloudflare Turnstile (contact form) and the click-to-load OpenStreetMap embed.
+# The sha256 below allows the one inline script in src/layouts/BaseLayout.astro (header state before first paint).
+# If you change that script, rebuild and update the hash.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-13DtsEw3ZxRUoqoHksLubCUiDSWPc5Rpg/xTKYr+FEM=' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com https://www.openstreetmap.org; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+
+# Hashed build assets (CSS, JS, images, fonts, video) never change at the same URL.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable

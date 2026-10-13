@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "makhafola-associates",
+  "compatibility_date": "2026-10-13",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "main": "@astrojs/cloudflare/entrypoints/server",
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./dist/client",
+    "not_found_handling": "404-page",
+  },
+  "observability": {
+    "enabled": true,
+  },
+  // Secrets (never committed): RESEND_API_KEY, TURNSTILE_SECRET_KEY, CONTACT_TO_EMAIL
+  // Set with: pnpm wrangler secret put <NAME>. Locally they come from .dev.vars.
+}

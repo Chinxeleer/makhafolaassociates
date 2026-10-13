@@ -1,0 +1,45 @@
+---
+import { getImage } from "astro:assets";
+import ogDefault from "../assets/images/og-default.png";
+import { site } from "../data/site";
+
+interface Props {
+  title: string;
+  description: string;
+  type?: "website" | "article";
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  publishedTime?: Date;
+  noindex?: boolean;
+}
+
+const { title, description, type = "website", jsonLd, publishedTime, noindex = false } = Astro.props;
+
+const fullTitle = title === site.name ? title : `${title} | ${site.name}`;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
+const og = await getImage({ src: ogDefault, format: "png", width: 1200, height: 630 });
+const ogUrl = new URL(og.src, Astro.site ?? site.url).href;
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex" />}
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:locale" content="en_ZA" />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={`${site.name} logo`} />
+{publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogUrl} />
+
+{jsonLd && <script type="application/ld+json" data-jsonld set:html={JSON.stringify(jsonLd)} />}

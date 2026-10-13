@@ -1,0 +1,15 @@
+---
+// 1px by 48px gold rule. Used in exactly three places sitewide:
+// above the hero statement, above the director's name, above the contact headline.
+interface Props {
+  tone?: "light" | "dark";
+  class?: string;
+}
+const { tone = "dark", class: className } = Astro.props;
+---
+
+<span
+  aria-hidden="true"
+  data-gold-rule
+  class:list={["block h-px w-12 origin-left", tone === "dark" ? "bg-gold-500" : "bg-gold-700", className]}
+></span>

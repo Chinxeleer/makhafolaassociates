@@ -1,0 +1,125 @@
+---
+import { Font, Image } from "astro:assets";
+import markOnDark from "../assets/images/logo-mark-on-dark.png";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import MobileMenu from "../components/MobileMenu.astro";
+import Seo from "../components/Seo.astro";
+import WhatsAppButton from "../components/WhatsAppButton.astro";
+import "../styles/global.css";
+
+export type Namespace =
+  "home" | "about" | "practice" | "insights" | "article" | "contact" | "privacy" | "notfound";
+
+interface Props {
+  title: string;
+  description: string;
+  namespace: Namespace;
+  /** The page opens on a dark (navy) field, so the header starts transparent. */
+  heroDark?: boolean;
+  type?: "website" | "article";
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  publishedTime?: Date;
+  noindex?: boolean;
+}
+
+const { title, description, namespace, heroDark = false, ...seo } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en-ZA">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="oklch(0.3 0.059 259)" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    {/* Newsreader: logo lockup (400) is above the fold everywhere; the serif statement and quote load on demand. */}
+    <Font cssVariable="--font-newsreader" preload={[{ weight: 400, style: "normal" }]} />
+    {/* Bricolage Grotesque: headings (600) everywhere, the hero statement (700) on home. */}
+    <Font
+      cssVariable="--font-bricolage"
+      preload={
+        heroDark
+          ? [
+              { weight: 600, style: "normal" },
+              { weight: 700, style: "normal" },
+            ]
+          : [{ weight: 600, style: "normal" }]
+      }
+    />
+    <Font cssVariable="--font-plex-sans" preload />
+    <Font cssVariable="--font-plex-mono" />
+    <Seo title={title} description={description} {...seo} />
+    {/* TODO: enable Cloudflare Web Analytics (cookieless) once the domain is live. */}
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="fixed top-2 left-2 z-(--z-toast) -translate-y-24 bg-navy-800 px-4 py-3 text-small font-medium text-on-dark focus:translate-y-0"
+      data-skip-link
+    >
+      Skip to content
+    </a>
+
+    <Header />
+    {
+      /* Sets the transparent header state before first paint, only when JS runs.
+         Its hash is allowed in the CSP in public/_headers: update it if this line changes. */
+      heroDark && <script is:inline>
+        document.querySelector("[data-site-header]").dataset.overHero = "true";
+      </script>
+    }
+    <MobileMenu />
+    <WhatsAppButton />
+
+    <div
+      data-curtain
+      aria-hidden="true"
+      class="pointer-events-none fixed inset-0 z-(--z-curtain) hidden items-center justify-center bg-navy-900 text-gold-500"
+    >
+      <Image
+        src={markOnDark}
+        alt=""
+        layout="fixed"
+        width={74}
+        height={80}
+        loading="eager"
+        class="h-20 w-auto"
+      />
+    </div>
+
+    {/* Article reading progress. Outside the smooth wrapper so position: fixed works; shown by pages/article.ts. */}
+    <div
+      data-reading-progress
+      hidden
+      aria-hidden="true"
+      class="fixed inset-x-0 top-0 z-(--z-toast) h-0.5 origin-left bg-gold-700"
+    ></div>
+
+    <div data-route-announcer aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+    <div id="smooth-wrapper">
+      <div id="smooth-content">
+        <div data-barba="wrapper">
+          <main
+            id="main"
+            tabindex="-1"
+            class="outline-none"
+            data-barba="container"
+            data-barba-namespace={namespace}
+            data-hero-dark={heroDark ? "true" : undefined}
+          >
+            <slot />
+          </main>
+        </div>
+        <Footer />
+      </div>
+    </div>
+
+    <script>
+      import "../scripts/app";
+    </script>
+  </body>
+</html>

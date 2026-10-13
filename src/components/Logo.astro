@@ -1,0 +1,38 @@
+---
+// Horizontal lockup: the firm's mark (cropped from src/assets/images/logo.svg) beside the typeset name.
+// tone "auto" follows the header state (light mark normally, reversed mark over the dark hero).
+import { Image } from "astro:assets";
+import mark from "../assets/images/logo-mark.png";
+import markOnDark from "../assets/images/logo-mark-on-dark.png";
+
+interface Props {
+  tone?: "light" | "dark" | "auto";
+}
+const { tone = "auto" } = Astro.props;
+// The mark image ends on the baseline of the "MCA" letters, which fill its lower half (24px of 48px).
+const markProps = { alt: "", layout: "fixed", width: 45, height: 48, loading: "eager" } as const;
+---
+
+<span class="flex items-end gap-3">
+  {tone !== "dark" && (
+    <Image src={mark} {...markProps} class:list={["h-12 w-auto", tone === "auto" && "over-hero:hidden"]} />
+  )}
+  {tone !== "light" && (
+    <Image
+      src={markOnDark}
+      {...markProps}
+      class:list={["h-12 w-auto", tone === "auto" && "hidden over-hero:block"]}
+    />
+  )}
+  {/* The name fills the 24px band beside the letters: cap top of the first line on the letters' top,
+      baseline of the second line on their baseline. Below sm it stacks like the logo so the header fits 320px. */}
+  <span class="flex h-6 flex-col justify-between font-display">
+    <span class="text-box-cap text-small leading-none tracking-widest uppercase">
+      Makhafola<span class="max-sm:hidden"> &amp; Associates</span>
+    </span>
+    <span class="text-box-cap text-meta leading-none tracking-widest uppercase">
+      <span class="sm:hidden">&amp; Associates </span>
+      <span class="opacity-80">Inc.</span>
+    </span>
+  </span>
+</span>
