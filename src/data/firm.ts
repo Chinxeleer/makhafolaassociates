@@ -20,13 +20,6 @@ export const directorBio = [
   "He combines legal expertise with over 25 years of senior experience in information technology: risk management, cybersecurity, cloud computing and IT operations within leading blue-chip corporations.",
 ];
 
-export const credentials = [
-  "Attorney of the High Court of South Africa",
-  "25 years in IT, risk and cybersecurity",
-  "Five university degrees",
-  "Tudor Chambers, Pretoria",
-];
-
 export const questionAnswers = [
   {
     title: "Risk is assessed before it becomes a dispute.",

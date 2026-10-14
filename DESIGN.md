@@ -63,7 +63,6 @@ Headings use `text-balance`, prose `text-pretty`. Prose measure is capped at 65c
 
 - **Button:** `primary | secondary`, `tone="light|dark"`. Plex Sans 500, 15px, 16px 28px padding, 44px minimum height, arrow slides 4px on hover. Labels are verb + object.
 - **Body link:** underline, `underline-offset-4`; hover underline `gold-700` on light, `gold-300` on dark.
-- **GoldRule:** 1px by 48px gold rule, used exactly three times: above the hero statement, above the director's name, above the contact headline.
 - **Focus:** 2px outline, `gold-500` on dark, `navy-800` on light, offset 3px, `focus-visible` only.
 
 ## Icons

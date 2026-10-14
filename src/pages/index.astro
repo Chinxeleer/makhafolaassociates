@@ -2,9 +2,7 @@
 import Button from "../components/Button.astro";
 import ContactBand from "../components/ContactBand.astro";
 import Container from "../components/Container.astro";
-import CredentialsLine from "../components/CredentialsLine.astro";
 import Director from "../components/Director.astro";
-import GoldRule from "../components/GoldRule.astro";
 import HeroVideo from "../components/HeroVideo.astro";
 import InsightRow from "../components/InsightRow.astro";
 import PracticeAreaGroups from "../components/PracticeAreaGroups.astro";
@@ -52,21 +50,20 @@ const jsonLd = {
   {/* 1. Hero */}
   <section
     data-tone="dark"
-    class="relative flex min-h-svh flex-col bg-navy-800 text-on-dark"
+    class="relative flex min-h-(--hero-min-h) flex-col bg-navy-800 text-on-dark"
     aria-labelledby="hero-heading"
   >
     <HeroVideo />
-    <Container class="relative flex flex-1 flex-col justify-end pt-32 pb-24 md:pb-28">
+    <Container class="relative flex flex-1 flex-col justify-end pt-28 pb-12 md:pb-20">
       <div class="grid grid-cols-1 lg:grid-cols-12">
         <div class="font-hero lg:col-span-12">
-          <GoldRule class="mb-8 md:mb-10" />
           <h1 id="hero-heading" data-reveal-heading class="max-w-6xl text-hero font-bold">
             Legal counsel with an engineer's <em class="text-gold-300 not-italic">precision</em>.
           </h1>
-          <p class="mt-8 max-w-xl text-body text-on-dark-muted md:mt-12">
+          <p class="mt-6 max-w-xl text-body text-on-dark-muted md:mt-10">
             Attorneys in Pretoria for individuals, startups and companies.
           </p>
-          <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4 md:mt-10">
             <Button href="/contact/" tone="dark">
               Book a consultation
             </Button>
@@ -77,20 +74,10 @@ const jsonLd = {
         </div>
       </div>
     </Container>
-    <span aria-hidden="true" class="absolute bottom-0 left-1/2 hidden h-16 w-px overflow-hidden md:block">
-      <span class="block h-full w-px animate-scroll-cue bg-on-dark-muted"></span>
-    </span>
   </section>
 
-  {/* 2. Credentials line */}
-  <section aria-label="Credentials" class="border-b border-rule bg-surface">
-    <Container class="py-8 md:py-10">
-      <CredentialsLine />
-    </Container>
-  </section>
-
-  {/* 3. Firm statement */}
-  <Section size="statement" aria-label="About the firm">
+  {/* 2. Firm statement */}
+  <Section size="statement" aria-label="About the firm" class="pt-16 md:pt-16 lg:pt-16">
     <div class="grid grid-cols-1 lg:grid-cols-12">
       <div class="lg:col-span-10 lg:col-start-2">
         <p data-read-aloud class="font-display text-h2 font-light text-ink">
@@ -105,7 +92,7 @@ const jsonLd = {
     </div>
   </Section>
 
-  {/* 4. Question */}
+  {/* 3. Question */}
   <Section size="statement" surface="navy" labelledby="question-heading" data-question>
     <h2 id="question-heading" data-question-headline class="max-w-5xl font-heading text-h1 font-semibold">
       What do 25 years in technology mean for your legal matter?
@@ -131,7 +118,7 @@ const jsonLd = {
     </div>
   </Section>
 
-  {/* 5. Practice areas */}
+  {/* 4. Practice areas */}
   <Section surface="surface-2" labelledby="help-heading">
     <div class="mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
       <h2 id="help-heading" class="font-heading text-h1 font-semibold">
@@ -144,12 +131,12 @@ const jsonLd = {
     <PracticeAreaGroups />
   </Section>
 
-  {/* 6. Director */}
+  {/* 5. Director */}
   <Section size="statement" aria-label="The director">
-    <Director rule />
+    <Director />
   </Section>
 
-  {/* 7. How we work */}
+  {/* 6. How we work */}
   <Section surface="surface-2" labelledby="process-heading">
     <h2 id="process-heading" class="mb-12 font-heading text-h1 font-semibold md:mb-16">
       How we work
@@ -166,7 +153,7 @@ const jsonLd = {
     )}
   </Section>
 
-  {/* 8. Insights */}
+  {/* 7. Insights */}
   <Section labelledby="insights-heading">
     <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
       <h2 id="insights-heading" class="font-heading text-h1 font-semibold">
@@ -183,6 +170,6 @@ const jsonLd = {
     </ul>
   </Section>
 
-  {/* 9. Contact */}
+  {/* 8. Contact */}
   <ContactBand />
 </BaseLayout>

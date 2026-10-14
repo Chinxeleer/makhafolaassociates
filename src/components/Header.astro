@@ -58,10 +58,10 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
         data-menu-open
         aria-controls="mobile-menu"
         aria-expanded="false"
-        class="-mr-3 inline-flex min-h-11 items-center gap-2 px-3 text-small font-medium lg:hidden"
+        class="-mr-3 inline-flex min-h-11 min-w-11 items-center justify-center gap-2 px-3 text-small font-medium lg:hidden"
       >
         <Icon icon={faBars} class="size-4" />
-        Menu
+        <span class="max-xs:sr-only">Menu</span>
       </button>
     </div>
   </Container>

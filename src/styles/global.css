@@ -50,28 +50,8 @@
   /* Easing (CSS hover/focus transitions only; GSAP uses motion.ts) */
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
 
-  /* Hero scroll cue: a 1px line travelling downward */
-  --animate-scroll-cue: scroll-cue 2.4s var(--ease-out-quart) infinite;
-
-  @keyframes scroll-cue {
-    0% {
-      transform: scaleY(0);
-      transform-origin: top;
-    }
-    50% {
-      transform: scaleY(1);
-      transform-origin: top;
-    }
-    50.1% {
-      transform-origin: bottom;
-    }
-    100% {
-      transform: scaleY(0);
-      transform-origin: bottom;
-    }
-  }
-
   /* Layout */
+  --breakpoint-xs: 22.5rem; /* 360px: below this the header "Menu" label becomes icon-only */
   --container-site: 1320px;
   --container-prose: 65ch;
   --radius-input: 2px;
@@ -99,6 +79,9 @@
   --dur-fast: 350ms;
   /* Height of the fixed header; used for anchor offsets and sticky positions. */
   --header-h: 72px;
+  /* The home hero stops short of the fold so the next section peeks in, signalling more below. */
+  --hero-peek: 8rem;
+  --hero-min-h: calc(100svh - var(--hero-peek));
 }
 
 @layer base {
