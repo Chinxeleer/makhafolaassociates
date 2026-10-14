@@ -1,5 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
+  // Must match the Worker's name in the Cloudflare dashboard, or Workers Builds will refuse to deploy.
   "name": "makhafola-associates",
   "compatibility_date": "2026-10-13",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
@@ -12,6 +13,7 @@
   "observability": {
     "enabled": true,
   },
-  // Secrets (never committed): RESEND_API_KEY, TURNSTILE_SECRET_KEY, CONTACT_TO_EMAIL
-  // Set with: pnpm wrangler secret put <NAME>. Locally they come from .dev.vars.
+  // Runtime secrets used by the contact form: RESEND_API_KEY, TURNSTILE_SECRET_KEY, CONTACT_TO_EMAIL.
+  // Values are never committed. Set them in the dashboard (Worker → Settings → Variables and Secrets)
+  // or with `pnpm wrangler secret put <NAME>`. Locally they come from .dev.vars. The build does not need them.
 }
