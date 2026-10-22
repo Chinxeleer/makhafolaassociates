@@ -2,9 +2,10 @@
 import Button from "../components/Button.astro";
 import ContactBand from "../components/ContactBand.astro";
 import Container from "../components/Container.astro";
-import Director from "../components/Director.astro";
+// Hidden for now (see the Director and Insights sections below):
+// import Director from "../components/Director.astro";
 import HeroVideo from "../components/HeroVideo.astro";
-import InsightRow from "../components/InsightRow.astro";
+// import InsightRow from "../components/InsightRow.astro";
 import PracticeAreaGroups from "../components/PracticeAreaGroups.astro";
 import Section from "../components/Section.astro";
 import Steps from "../components/Steps.astro";
@@ -12,9 +13,9 @@ import { questionAnswers } from "../data/firm";
 import { practiceAreas } from "../data/practice-areas";
 import { site } from "../data/site";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { getPublishedInsights } from "../lib/insights";
+// import { getPublishedInsights } from "../lib/insights";
 
-const latest = (await getPublishedInsights()).slice(0, 3);
+// const latest = (await getPublishedInsights()).slice(0, 3);
 const [wide, ...narrow] = questionAnswers;
 
 const jsonLd = {
@@ -131,13 +132,16 @@ const jsonLd = {
     <PracticeAreaGroups />
   </Section>
 
-  {/* 5. Director */}
+  {/* 5. Director: hidden until confirmed. To restore, uncomment this block and the Director import,
+       and set "How we work" back to surface="surface-2".
   <Section size="statement" aria-label="The director">
     <Director />
   </Section>
+  */}
 
-  {/* 6. How we work */}
-  <Section surface="surface-2" labelledby="process-heading">
+  {/* 6. How we work. Uses the plain surface while the Director section is hidden, so it does not merge
+       with the grey "How we can help" section above; restore surface="surface-2" with the Director. */}
+  <Section labelledby="process-heading">
     <h2 id="process-heading" class="mb-12 font-heading text-h1 font-semibold md:mb-16">
       How we work
     </h2>
@@ -153,7 +157,8 @@ const jsonLd = {
     )}
   </Section>
 
-  {/* 7. Insights */}
+  {/* 7. Insights: hidden until confirmed. To restore, uncomment this block, the InsightRow and
+       getPublishedInsights imports and the `latest` query in the frontmatter.
   <Section labelledby="insights-heading">
     <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
       <h2 id="insights-heading" class="font-heading text-h1 font-semibold">
@@ -169,6 +174,7 @@ const jsonLd = {
       ))}
     </ul>
   </Section>
+  */}
 
   {/* 8. Contact */}
   <ContactBand />
