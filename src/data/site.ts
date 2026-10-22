@@ -35,6 +35,11 @@ export const site = {
   // TODO: PAIA manual URL.
   paiaUrl: null as string | null,
   areaServed: "Pretoria, Gauteng, South Africa",
+  // Fee offers. Legal Practice Council rules: copy about these renders only when the firm has confirmed
+  // them. TODO: firm to confirm. If contingency fees are offered, copy must say they are governed by the
+  // Contingency Fees Act.
+  offersContingency: false as boolean,
+  freeConsultation: false as boolean,
 } as const;
 
 export const nav = [

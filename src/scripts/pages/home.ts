@@ -1,4 +1,5 @@
 import { attachHeroVideo, detachHeroVideo } from "../components/hero-video";
+import { staggerLists } from "../components/lists";
 import { revealPortrait } from "../components/portrait";
 import { revealSteps } from "../components/steps";
 import { animateTimeline } from "../components/timeline";
@@ -51,16 +52,7 @@ export function init(container: HTMLElement): void {
     }
 
     // Practice-area link lists: items stagger in, per group.
-    container.querySelectorAll<HTMLElement>("[data-practice-list]").forEach((list) => {
-      gsap.from(list.querySelectorAll("li"), {
-        opacity: 0,
-        y: 16,
-        duration: DUR.base,
-        ease: EASE.out,
-        stagger: STAGGER,
-        scrollTrigger: { trigger: list, start: "top 85%" },
-      });
-    });
+    staggerLists(container, "[data-practice-list]");
 
     revealPortrait(container);
     animateTimeline(container);

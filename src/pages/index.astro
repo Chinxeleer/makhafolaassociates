@@ -10,7 +10,9 @@ import PracticeAreaGroups from "../components/PracticeAreaGroups.astro";
 import Section from "../components/Section.astro";
 import Steps from "../components/Steps.astro";
 import { questionAnswers } from "../data/firm";
-import { practiceAreas } from "../data/practice-areas";
+import { featuredArea, practiceAreas } from "../data/practice-areas";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import Icon from "../components/Icon.astro";
 import { site } from "../data/site";
 import BaseLayout from "../layouts/BaseLayout.astro";
 // import { getPublishedInsights } from "../lib/insights";
@@ -132,16 +134,39 @@ const jsonLd = {
     <PracticeAreaGroups />
   </Section>
 
-  {/* 5. Director: hidden until confirmed. To restore, uncomment this block and the Director import,
-       and set "How we work" back to surface="surface-2".
+  {/* 4b. RAF band: informative, not an advert. Reads the featured area from src/data/practice-areas.ts.
+       <!-- TODO: attorney to review RAF and estates copy before launch --> */}
+  {featuredArea?.guide && (
+    <Section aria-label="Road Accident Fund claims">
+      <div class="max-w-3xl">
+        <p class="font-display text-h2 font-light text-pretty">
+          Injured in a road accident? You may be entitled to claim from the Road Accident Fund.
+        </p>
+        <p class="mt-6 max-w-prose text-ink-muted">
+          Drivers, passengers, pedestrians and cyclists, and the dependants of people killed in road
+          accidents, may be able to claim for medical costs, lost earnings and loss of support.
+        </p>
+        <a
+          href={featuredArea.guide.href}
+          class="link mt-6 inline-flex min-h-11 items-center gap-2 font-medium"
+        >
+          Read the guide to RAF claims
+          <Icon icon={faArrowRight} class="size-3.5" />
+        </a>
+      </div>
+    </Section>
+  )}
+
+  {/* 5. Director: hidden until confirmed. To restore, uncomment this block and the Director import.
+       It then sits between the RAF band and "How we work": give one of them the grey surface so two
+       plain sections do not merge.
   <Section size="statement" aria-label="The director">
     <Director />
   </Section>
   */}
 
-  {/* 6. How we work. Uses the plain surface while the Director section is hidden, so it does not merge
-       with the grey "How we can help" section above; restore surface="surface-2" with the Director. */}
-  <Section labelledby="process-heading">
+  {/* 6. How we work */}
+  <Section surface="surface-2" labelledby="process-heading">
     <h2 id="process-heading" class="mb-12 font-heading text-h1 font-semibold md:mb-16">
       How we work
     </h2>

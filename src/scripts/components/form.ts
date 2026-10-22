@@ -137,10 +137,12 @@ export function initContactForm(container: HTMLElement): void {
   const f = form;
   const root = f.closest<HTMLElement>("[data-form-root]") ?? f;
 
-  // Preselect the practice area when arriving from "Discuss your matter".
+  // Preselect the practice area when arriving with ?area=<slug> (e.g. from "Discuss your matter").
+  // Older links that pass the area's name still match.
   const area = new URLSearchParams(window.location.search).get("area");
   const select = f.querySelector<HTMLSelectElement>("#contact-area");
-  if (area && select && Array.from(select.options).some((o) => o.value === area)) select.value = area;
+  const match = area && select && Array.from(select.options).find((o) => o.value === area || o.text === area);
+  if (select && match) select.value = match.value;
 
   const slot = f.querySelector<HTMLElement>("[data-turnstile]");
   if (slot) {

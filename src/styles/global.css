@@ -123,6 +123,14 @@
     outline: none;
   }
 
+  /* FAQ accordions draw their own +/× icon, so hide the browser's disclosure triangle. */
+  details[data-accordion] > summary {
+    list-style: none;
+  }
+  details[data-accordion] > summary::-webkit-details-marker {
+    display: none;
+  }
+
   /* Native dialog backdrop for the mobile menu (the menu itself is full-screen). */
   dialog::backdrop {
     background: var(--color-transparent);

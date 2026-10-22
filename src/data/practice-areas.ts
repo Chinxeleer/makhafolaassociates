@@ -1,12 +1,23 @@
 // TODO: client to review practice area copy.
+// TODO: attorney to review RAF and estates copy before launch (Road Accident Fund Claims, Wills & Estates).
 // Plain-language summaries of each area as practised in South Africa. Conservative by design:
 // no outcomes, no superlatives, no claims beyond what the area covers.
+//
+// Every list of practice areas on the site (home, practice areas page, contact form, structured data)
+// reads from this file. Never hard-code an area name elsewhere.
 
 export interface PracticeArea {
   slug: string;
   name: string;
   summary: string;
-  typicalMatters: string[];
+  /** Omitted for areas with their own guide page, which carries the detail. */
+  typicalMatters?: string[];
+  /** The firm's most common matter type: given more prominence in lists. */
+  featured?: boolean;
+  /** A dedicated guide page for this area. */
+  guide?: { href: string; label: string };
+  /** A pointer to a related area, rendered as "<lead> See <area name>." */
+  related?: { lead: string; slug: string };
 }
 
 export interface PracticeGroup {
@@ -15,7 +26,94 @@ export interface PracticeGroup {
   areas: PracticeArea[];
 }
 
+// Grouped by who the client is. Injury & Claims comes first: RAF claims are the firm's most common matter.
 export const practiceGroups: PracticeGroup[] = [
+  {
+    slug: "injury-claims",
+    name: "Injury & Claims",
+    areas: [
+      {
+        slug: "road-accident-fund",
+        name: "Road Accident Fund Claims",
+        featured: true,
+        summary:
+          "If you were injured in a road accident in South Africa, or lost a family member who supported you, you may be able to claim compensation from the Road Accident Fund. We handle the claim from lodgement to settlement or court.",
+        guide: { href: "/practice-areas/road-accident-fund/", label: "Read the full guide to RAF claims" },
+      },
+      {
+        // Slug unchanged so existing links to /practice-areas/#medical-law keep working.
+        slug: "medical-law",
+        name: "Medical Law",
+        summary:
+          "Legal questions that arise in healthcare, including patients' rights, consent and claims where treatment may have caused harm.",
+        typicalMatters: [
+          "Assessing a possible medical negligence claim",
+          "Obtaining medical records",
+          "Informed consent and patients' rights questions",
+          "Disputes with medical schemes",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "personal-family",
+    name: "Personal & Family",
+    areas: [
+      {
+        slug: "family-law",
+        name: "Family Law",
+        summary:
+          "Legal matters within families, including divorce, the care of children and maintenance, handled under the Divorce Act, the Children's Act and the Maintenance Act.",
+        typicalMatters: [
+          "Divorce, including settlement agreements",
+          "Parental rights and responsibilities, including care, contact and parenting plans",
+          "Child and spousal maintenance",
+          "Antenuptial contracts",
+          "Domestic violence protection orders",
+        ],
+        related: { lead: "Planning for your family's future?", slug: "wills-and-estates" },
+      },
+      {
+        slug: "wills-and-estates",
+        name: "Wills & Estates",
+        summary:
+          "We draft wills and help families administer deceased estates, so that a person's wishes are carried out and the process with the Master of the High Court runs properly.",
+        typicalMatters: [
+          "Drafting and updating wills",
+          "Reporting an estate to the Master of the High Court",
+          "Acting for or assisting executors",
+          "Estates where there is no will (intestate succession)",
+          "Transferring property from an estate",
+          "Resolving disputes between heirs",
+        ],
+      },
+      {
+        slug: "property-law",
+        name: "Property Law",
+        summary:
+          "Rights and obligations in immovable property, from agreements to buy, sell or lease property to disputes between owners, tenants and neighbours.",
+        typicalMatters: [
+          "Reviewing or drafting agreements of sale",
+          "Residential and commercial lease agreements",
+          "Evictions under the PIE Act, for landlords and occupiers",
+          "Disputes with sectional title bodies corporate and homeowners' associations",
+        ],
+      },
+      {
+        slug: "refugee-immigration-law",
+        name: "Refugee & Immigration Law",
+        summary:
+          "Applications and disputes under the Immigration Act and the Refugees Act, for people who want to live, work or seek protection in South Africa.",
+        typicalMatters: [
+          "Visa and permit applications, including work and spousal visas",
+          "Permanent residence applications",
+          "Appeals against refused applications",
+          "Asylum and refugee status applications and appeals",
+          "Matters involving detention or deportation",
+        ],
+      },
+    ],
+  },
   {
     slug: "business-technology",
     name: "Business & Technology",
@@ -92,62 +190,18 @@ export const practiceGroups: PracticeGroup[] = [
       },
     ],
   },
-  {
-    slug: "personal-family",
-    name: "Personal & Family",
-    areas: [
-      {
-        slug: "family-law",
-        name: "Family Law",
-        summary:
-          "Legal matters within families, including divorce, the care of children and maintenance, handled under the Divorce Act, the Children's Act and the Maintenance Act.",
-        typicalMatters: [
-          "Divorce, including settlement agreements",
-          "Care of and contact with children (parenting plans)",
-          "Child and spousal maintenance",
-          "Antenuptial contracts",
-          "Domestic violence protection orders",
-        ],
-      },
-      {
-        slug: "property-law",
-        name: "Property Law",
-        summary:
-          "Rights and obligations in immovable property, from agreements to buy, sell or lease property to disputes between owners, tenants and neighbours.",
-        typicalMatters: [
-          "Reviewing or drafting agreements of sale",
-          "Residential and commercial lease agreements",
-          "Evictions under the PIE Act, for landlords and occupiers",
-          "Disputes with sectional title bodies corporate and homeowners' associations",
-        ],
-      },
-      {
-        slug: "refugee-immigration-law",
-        name: "Refugee & Immigration Law",
-        summary:
-          "Applications and disputes under the Immigration Act and the Refugees Act, for people who want to live, work or seek protection in South Africa.",
-        typicalMatters: [
-          "Visa and permit applications, including work and spousal visas",
-          "Permanent residence applications",
-          "Appeals against refused applications",
-          "Asylum and refugee status applications and appeals",
-          "Matters involving detention or deportation",
-        ],
-      },
-      {
-        slug: "medical-law",
-        name: "Medical Law",
-        summary:
-          "Legal questions that arise in healthcare, including patients' rights, consent and claims where treatment may have caused harm.",
-        typicalMatters: [
-          "Assessing a possible medical negligence claim",
-          "Obtaining medical records",
-          "Informed consent and patients' rights questions",
-          "Disputes with medical schemes",
-        ],
-      },
-    ],
-  },
 ];
 
 export const practiceAreas: PracticeArea[] = practiceGroups.flatMap((g) => g.areas);
+
+export const areaBySlug = (slug: string): PracticeArea | undefined =>
+  practiceAreas.find((a) => a.slug === slug);
+
+/** The featured area (RAF claims), used for the home band and list prominence. */
+export const featuredArea: PracticeArea | undefined = practiceAreas.find((a) => a.featured);
+
+/** "Road Accident Fund Claims, Medical Law, …": for meta descriptions, generated so it never drifts. */
+export const practiceAreaList = (): string => {
+  const names = practiceAreas.map((a) => a.name);
+  return `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`;
+};

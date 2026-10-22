@@ -108,13 +108,15 @@ pnpm runs dependency build scripts only for `esbuild`, `sharp` and `workerd` (`p
 
 Copy and data live in `src/data/` and `src/content/`. Components only read from there, so a fact is never typed twice.
 
-| To change                                                                             | Edit                         |
-| ------------------------------------------------------------------------------------- | ---------------------------- |
-| Name, phone, email, address, WhatsApp, domain, office hours, client portal, PAIA link | `src/data/site.ts`           |
-| Practice areas: groups, names, slugs, summaries, typical matters                      | `src/data/practice-areas.ts` |
-| About text, vision, values, director bio, home question answers, the four steps       | `src/data/firm.ts`           |
-| Director's degrees (timeline order)                                                   | `src/data/degrees.ts`        |
-| Privacy notice                                                                        | `src/pages/privacy.astro`    |
+| To change                                                                                       | Edit                                                                                                |
+| ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Name, phone, email, address, WhatsApp, domain, office hours, client portal, PAIA link           | `src/data/site.ts`                                                                                  |
+| Practice areas: groups, names, slugs, summaries, typical matters                                | `src/data/practice-areas.ts`                                                                        |
+| Road Accident Fund guide: who can claim, what it covers, steps, what to bring, time limits, FAQ | `src/data/raf.ts` (time limits show only when `timeLimits.verified` is `true`)                      |
+| Fee offers (free consultation, contingency fees)                                                | `src/data/site.ts` → `freeConsultation`, `offersContingency` (both `false` until the firm confirms) |
+| About text, vision, values, director bio, home question answers, the four steps                 | `src/data/firm.ts`                                                                                  |
+| Director's degrees (timeline order)                                                             | `src/data/degrees.ts`                                                                               |
+| Privacy notice                                                                                  | `src/pages/privacy.astro`                                                                           |
 
 Office hours, the client portal link and the PAIA manual link are hidden until they are set in `site.ts`. Practice areas feed the home page, the practice areas page, the contact form's dropdown and the structured data, so one edit updates all of them.
 

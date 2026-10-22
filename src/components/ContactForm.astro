@@ -119,7 +119,7 @@ const error = "mt-2 text-small font-medium text-gold-700";
         {practiceGroups.map((group) => (
           <optgroup label={group.name}>
             {group.areas.map((area) => (
-              <option value={area.name}>{area.name}</option>
+              <option value={area.slug}>{area.name}</option>
             ))}
           </optgroup>
         ))}

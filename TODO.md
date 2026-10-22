@@ -39,6 +39,18 @@ Everything here is a placeholder or an unconfirmed fact. Nothing on the site was
 - [ ] **Insight articles.** The three articles in `src/content/insights/` are placeholders. Rewrite, approve or set `draft: true`.
 - [ ] **Privacy notice** (`src/pages/privacy.astro`): POPIA template, needs **legal review by the firm**, including the retention periods and the name of the Information Officer.
 
+## Road Accident Fund and Wills & Estates (attorney review before launch)
+
+- [ ] **Review all RAF and estates copy.** Marked `TODO: attorney to review RAF and estates copy before launch`:
+  - `src/data/practice-areas.ts`: Road Accident Fund Claims and Wills & Estates entries, and the Family Law changes.
+  - `src/data/raf.ts`: who can claim, what a claim can cover, the four process steps, what to bring, and the five FAQ answers (also published as FAQPage structured data).
+  - `src/pages/index.astro`: the home RAF band line and supporting sentence.
+- [ ] **Verify the RAF time limits** in `src/data/raf.ts` (`timeLimits.items`: 3 years identified vehicle, 2 years hit-and-run, 5 years to serve summons) against the current RAF Act and regulations, then set `timeLimits.verified: true`. Until then the page shows a neutral sentence instead of the numbers.
+- [ ] **Confirm fee offers** in `src/data/site.ts`. Both default to `false`, and no fee offer appears anywhere until set:
+  - `freeConsultation`: adds "The first consultation is free." to the RAF FAQ answer on cost.
+  - `offersContingency`: adds that outcome-based fees are governed by the Contingency Fees Act.
+- [ ] **Placeholder article** `src/content/insights/how-a-road-accident-fund-claim-works.md` is a draft outline (`draft: true`, not published). Write it, then set `draft: false`.
+
 ## Services
 
 - [ ] Create the **Turnstile** widget for the confirmed domain and set `PUBLIC_TURNSTILE_SITE_KEY` (build variable) and `TURNSTILE_SECRET_KEY` (secret). The defaults are Cloudflare's test keys.

@@ -14,8 +14,16 @@ import * as article from "./pages/article";
 import * as contact from "./pages/contact";
 import * as home from "./pages/home";
 import * as practice from "./pages/practice";
+import * as practiceRaf from "./pages/practice-raf";
 
-const registry: Record<string, PageModule> = { home, about, practice, article, contact };
+const registry: Record<string, PageModule> = {
+  home,
+  about,
+  practice,
+  "practice-raf": practiceRaf,
+  article,
+  contact,
+};
 
 const reduced = prefersReducedMotion();
 const HEADER_OFFSET = "top 96px";

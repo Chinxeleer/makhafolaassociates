@@ -1,5 +1,12 @@
 ---
-import { steps } from "../data/firm";
+// A real ordered process: the one place (with the degree timeline) where numbers mark items.
+// Defaults to the firm's "How we work" steps; the RAF guide passes its own.
+import { steps as firmSteps } from "../data/firm";
+
+interface Props {
+  steps?: { title: string; body: string }[];
+}
+const { steps = firmSteps } = Astro.props;
 ---
 
 <ol class="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-4">

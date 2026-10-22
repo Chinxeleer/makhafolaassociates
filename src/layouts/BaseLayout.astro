@@ -9,7 +9,15 @@ import WhatsAppButton from "../components/WhatsAppButton.astro";
 import "../styles/global.css";
 
 export type Namespace =
-  "home" | "about" | "practice" | "insights" | "article" | "contact" | "privacy" | "notfound";
+  | "home"
+  | "about"
+  | "practice"
+  | "practice-raf"
+  | "insights"
+  | "article"
+  | "contact"
+  | "privacy"
+  | "notfound";
 
 interface Props {
   title: string;

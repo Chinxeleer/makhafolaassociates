@@ -1,12 +1,10 @@
 import { ActionError, defineAction } from "astro:actions";
 import { z } from "astro/zod";
 import { env } from "cloudflare:workers";
-import { practiceAreas } from "../data/practice-areas";
+import { areaBySlug } from "../data/practice-areas";
 import { site } from "../data/site";
 import { EmailError, sendEmail } from "../lib/email";
 import { verifyTurnstile } from "../lib/turnstile";
-
-const areaNames = practiceAreas.map((a) => a.name);
 
 export const contactSchema = z.object({
   name: z.string().trim().min(2, "Enter your name.").max(120, "Enter a shorter name."),
@@ -20,7 +18,7 @@ export const contactSchema = z.object({
   area: z
     .string()
     .optional()
-    .refine((v) => !v || areaNames.includes(v), "Choose a practice area from the list."),
+    .refine((v) => !v || Boolean(areaBySlug(v)), "Choose a practice area from the list."),
   message: z
     .string()
     .trim()
@@ -54,7 +52,7 @@ export const server = {
         `Name: ${input.name}`,
         `Email: ${input.email}`,
         `Phone: ${input.phone || "Not given"}`,
-        `Practice area: ${input.area || "Not chosen"}`,
+        `Practice area: ${(input.area && areaBySlug(input.area)?.name) || "Not chosen"}`,
         "",
         input.message,
         "",
