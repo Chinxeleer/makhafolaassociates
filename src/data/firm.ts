@@ -1,7 +1,7 @@
 // Firm copy shared across pages (About, home). Lightly edited from the firm's profile.
 
 export const about = [
-  "Makhafola & Associates Inc. is a South African law firm headquartered in Pretoria, founded by Matsobane Meshack Makhafola to deliver modern, client-focused legal services.",
+  "Makhafola & Associates Inc. is a South African law firm headquartered in Pretoria, founded by Meshack Makhafola to deliver modern, client-focused legal services.",
   "The firm combines legal precision with business and technology insight, serving individuals, startups and corporations. Our approach is rooted in integrity, innovation and a commitment to excellence.",
 ];
 
@@ -16,7 +16,7 @@ export const values = [
 ];
 
 export const directorBio = [
-  "Matsobane Meshack Makhafola is admitted as an Attorney of the High Court of South Africa.",
+  "Meshack Makhafola is admitted as an Attorney of the High Court of South Africa.",
   "He combines legal expertise with over 25 years of senior experience in information technology: risk management, cybersecurity, cloud computing and IT operations within leading blue-chip corporations.",
 ];
 

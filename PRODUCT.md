@@ -12,7 +12,7 @@ Marketing website for a law firm of attorneys in Pretoria, South Africa. The sit
 
 **A law firm that thinks like an engineer.**
 
-The director, Matsobane Meshack Makhafola, is an admitted Attorney of the High Court of South Africa with 25+ years of senior IT experience (risk management, cybersecurity, cloud and IT operations at blue-chip corporations) and five university degrees spanning science, risk and law.
+The director, Meshack Makhafola, is an admitted Attorney of the High Court of South Africa with 25+ years of senior IT experience (risk management, cybersecurity, cloud and IT operations at blue-chip corporations) and five university degrees spanning science, risk and law.
 
 ## Users
 
