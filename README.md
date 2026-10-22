@@ -270,8 +270,8 @@ The build needs no secrets: only the contact form uses them, at runtime. A clean
    Or from a terminal logged in with `pnpm wrangler login`: `pnpm wrangler secret put RESEND_API_KEY` (and the same for the others).
 
 5. **Turnstile widget.** Dashboard → Turnstile → Add widget, mode "Managed". Add the live domain as a hostname (and the `*.workers.dev` hostname if you want the form to work there before the domain is connected). Its site key goes in step 3 and its secret in step 4.
-6. **Custom domain.** Worker → Settings → Domains & Routes → Add → Custom domain. The domain is **still to be confirmed** (`makhafola-associates.co.za` or `makhafolaassociates.co.za`); once chosen, set it as `url` in `src/data/site.ts` and in `public/robots.txt`, then push.
-7. **Email sending.** In Resend, add and verify the domain (DNS records) so mail from `website@<domain>` is delivered.
+6. **Custom domain.** Worker → Settings → Domains & Routes → Add → Custom domain: `www.makhafolaassociates.co.za`. If you also connect the bare `makhafolaassociates.co.za`, add a Cloudflare redirect rule from it to `www`. The `www` host must match `url` in `src/data/site.ts` and the sitemap line in `public/robots.txt`.
+7. **Email sending.** In Resend, add and verify `makhafolaassociates.co.za` (DNS records) so mail from `website@makhafolaassociates.co.za` is delivered.
 
 ### Day to day
 

@@ -26,7 +26,7 @@ Everything here is a placeholder or an unconfirmed fact. Nothing on the site was
 
 ## Firm details (`src/data/site.ts`)
 
-- [ ] **Confirm the domain.** The profile shows both `makhafola-associates.co.za` and `makhafolaassociates.co.za`. Set `site.url`, then update `public/robots.txt` to match.
+- [x] **Domain.** Confirmed as `makhafolaassociates.co.za` (`site.url` and `public/robots.txt`). Emails: `info@` (general enquiries, form recipient) and `meshack@` (director).
 - [ ] **Office hours** (`site.hours`). Hidden on the site until set.
 - [ ] **Client portal URL** (`site.portalUrl`). The footer "Client Portal" link and the "Go to the client portal" link are hidden until set.
 - [ ] **PAIA manual URL** (`site.paiaUrl`). Hidden until set.
@@ -42,6 +42,6 @@ Everything here is a placeholder or an unconfirmed fact. Nothing on the site was
 ## Services
 
 - [ ] Create the **Turnstile** widget for the confirmed domain and set `PUBLIC_TURNSTILE_SITE_KEY` (build variable) and `TURNSTILE_SECRET_KEY` (secret). The defaults are Cloudflare's test keys.
-- [ ] Create a **Resend** account, verify the sending domain, set `RESEND_API_KEY`. The sender is `website@<domain>` (see `src/actions/index.ts`).
+- [ ] Create a **Resend** account, verify the sending domain, set `RESEND_API_KEY`. The sender is `website@makhafolaassociates.co.za` (see `src/actions/index.ts`).
 - [ ] Set `CONTACT_TO_EMAIL`.
 - [ ] Optional: enable **Cloudflare Web Analytics** (cookieless) in the Cloudflare dashboard once the domain is live. If it injects a script, add its host to the CSP in `public/_headers`.

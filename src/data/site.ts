@@ -4,15 +4,16 @@ export const site = {
   name: "Makhafola & Associates Inc.",
   shortName: "Makhafola & Associates",
   tagline: "Trusted legal solutions for individuals and businesses, delivered with integrity and excellence.",
-  // TODO: confirm domain. The firm profile shows both makhafola-associates.co.za and makhafolaassociates.co.za.
-  url: "https://www.makhafola-associates.co.za",
-  director: "Matsobane Meshack Makhafola",
+  url: "https://www.makhafolaassociates.co.za",
+  director: "Meshack M Makhafola",
   phone: {
     display: "083 200 2036",
     href: "tel:+27832002036",
     international: "+27 83 200 2036",
   },
-  email: "meshack@makhafola-associates.co.za",
+  // General enquiries: shown first everywhere, used in structured data and as the contact form's recipient.
+  email: "info@makhafolaassociates.co.za",
+  directorEmail: "meshack@makhafolaassociates.co.za",
   whatsapp: {
     href: "https://wa.me/27832002036",
     label: "Message us on WhatsApp",

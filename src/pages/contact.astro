@@ -72,6 +72,18 @@ const mapLink = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=17/$
         </div>
         <div class="grid grid-cols-1 gap-1 border-b border-rule py-5 sm:grid-cols-3 sm:gap-4">
           <dt class="flex items-center gap-2 text-small text-ink-muted">
+            <Icon icon={faEnvelope} class="size-3.5 text-gold-700" />
+            Director
+          </dt>
+          <dd class="sm:col-span-2">
+            <EmailLink
+              address={site.directorEmail}
+              class="-my-3 inline-flex min-h-11 flex-wrap items-center"
+            />
+          </dd>
+        </div>
+        <div class="grid grid-cols-1 gap-1 border-b border-rule py-5 sm:grid-cols-3 sm:gap-4">
+          <dt class="flex items-center gap-2 text-small text-ink-muted">
             <Icon icon={faLocationDot} class="size-3.5 text-gold-700" />
             Office
           </dt>

@@ -71,7 +71,7 @@ export const server = {
           },
           {
             apiKey: env.RESEND_API_KEY,
-            // TODO: confirm domain. The sending domain must be verified with Resend.
+            // Sender is website@<site.url hostname>; that domain must be verified with Resend.
             from: `${site.shortName} website <website@${new URL(site.url).hostname.replace(/^www\./, "")}>`,
           },
         );

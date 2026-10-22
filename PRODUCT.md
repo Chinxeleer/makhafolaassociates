@@ -58,7 +58,8 @@ Interchangeable law-firm sites: stock gavels, handshakes, scales and Lady Justic
 - Tagline: "Trusted legal solutions for individuals and businesses, delivered with integrity and excellence."
 - Address: Office 116, Tudor Chambers, 231 Helen Joseph Street, Pretoria, 0002
 - Phone: 083 200 2036
-- Email: meshack@makhafola-associates.co.za
+- Email: info@makhafolaassociates.co.za (general), meshack@makhafolaassociates.co.za (director)
+- Domain: makhafolaassociates.co.za
 
 ## Identity preservation
 

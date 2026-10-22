@@ -8,4 +8,4 @@ RESEND_API_KEY=dry-run
 TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
 
 # Where enquiries are delivered. Defaults to the firm email in src/data/site.ts if empty.
-CONTACT_TO_EMAIL=meshack@makhafola-associates.co.za
+CONTACT_TO_EMAIL=info@makhafolaassociates.co.za
