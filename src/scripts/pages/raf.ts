@@ -4,7 +4,7 @@ import { revealSteps } from "../components/steps";
 import { gsap } from "../gsap";
 import { prefersReducedMotion } from "../motion";
 
-// Road Accident Fund guide: list staggers, the process steps reveal, and the FAQ accordion.
+// Road Accident Fund page (/road-accident-fund/): list staggers, the process steps reveal, the FAQ accordion.
 let ctx: gsap.Context | null = null;
 let cleanupAccordions: (() => void) | null = null;
 

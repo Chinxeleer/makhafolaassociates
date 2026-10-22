@@ -10,9 +10,7 @@ import PracticeAreaGroups from "../components/PracticeAreaGroups.astro";
 import Section from "../components/Section.astro";
 import Steps from "../components/Steps.astro";
 import { questionAnswers } from "../data/firm";
-import { featuredArea, practiceAreas } from "../data/practice-areas";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import Icon from "../components/Icon.astro";
+import { allAreaNames, speciality } from "../data/practice-areas";
 import { site } from "../data/site";
 import BaseLayout from "../layouts/BaseLayout.astro";
 // import { getPublishedInsights } from "../lib/insights";
@@ -38,14 +36,14 @@ const jsonLd = {
     addressCountry: site.address.country,
   },
   areaServed: site.areaServed,
-  knowsAbout: practiceAreas.map((a) => a.name),
+  knowsAbout: allAreaNames,
   founder: { "@type": "Person", name: site.director, jobTitle: "Director" },
 };
 ---
 
 <BaseLayout
   title={site.name}
-  description="Attorneys in Pretoria for individuals, startups and companies. Legal counsel from an admitted attorney with 25 years in IT, risk and cybersecurity."
+  description="Pretoria attorneys whose core practice is Road Accident Fund claims, led by an attorney with 25 years in technology and risk, also acting in family, estates, business, technology and dispute matters."
   namespace="home"
   heroDark
   jsonLd={jsonLd}
@@ -64,14 +62,15 @@ const jsonLd = {
             Legal counsel with an engineer's <em class="text-gold-300 not-italic">precision</em>.
           </h1>
           <p class="mt-6 max-w-xl text-body text-on-dark-muted md:mt-10">
-            Attorneys in Pretoria for individuals, startups and companies.
+            Pretoria attorneys whose core practice is Road Accident Fund claims, with family, estates,
+            business and technology law alongside.
           </p>
           <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4 md:mt-10">
-            <Button href="/contact/" tone="dark">
-              Book a consultation
+            <Button href={speciality.href} tone="dark">
+              Start your RAF claim
             </Button>
-            <Button href={site.whatsapp.href} variant="secondary" tone="dark" target="_blank" rel="noopener">
-              Message us on WhatsApp
+            <Button href="/contact/" variant="secondary" tone="dark">
+              Book a consultation
             </Button>
           </div>
         </div>
@@ -84,9 +83,8 @@ const jsonLd = {
     <div class="grid grid-cols-1 lg:grid-cols-12">
       <div class="lg:col-span-10 lg:col-start-2">
         <p data-read-aloud class="font-display text-h2 font-light text-ink">
-          Founded by attorney and technologist Meshack Makhafola, Makhafola &amp; Associates brings a
-          lawyer's judgement and an engineer's rigour to every matter, for individuals, startups and
-          companies.
+          Founded by attorney and technologist Meshack Makhafola, Makhafola &amp; Associates brings a lawyer's
+          judgement and an engineer's rigour to every matter, for individuals, startups and companies.
         </p>
         <a href="/about/" class="link mt-10 inline-flex min-h-11 items-center font-medium">
           Read about the firm
@@ -95,7 +93,54 @@ const jsonLd = {
     </div>
   </Section>
 
-  {/* 3. Question */}
+  {/* 3. Core practice: Road Accident Fund claims. Navy, the firm's main offer; the light statement above and
+       the grey areas below keep it from touching the navy hero or question section.
+       <!-- TODO: attorney to review RAF and estates copy before launch --> */}
+  <Section size="statement" surface="navy" labelledby="raf-home-heading">
+    <div class="grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-8">
+      <div class="lg:col-span-7">
+        <h2 id="raf-home-heading" data-reveal-lines class="font-display text-h1 font-light">
+          Road Accident Fund claims are the core of our practice.
+        </h2>
+        <p class="mt-8 max-w-prose text-on-dark-muted">
+          Drivers, passengers, pedestrians and cyclists injured in road accidents, and the dependants of
+          people killed in them, may be able to claim compensation from the Road Accident Fund. We handle the
+          claim from lodgement to settlement or court.
+        </p>
+        <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
+          <Button href={`/contact/?area=${speciality.slug}`} tone="dark">
+            Start your RAF claim
+          </Button>
+          <Button href={speciality.href} variant="secondary" tone="dark">
+            Read the guide to RAF claims
+          </Button>
+        </div>
+      </div>
+      <div class="lg:col-span-4 lg:col-start-9">
+        <h3 class="text-small font-medium text-on-dark-muted">What a claim can cover</h3>
+        <ul data-stagger-list class="mt-4 border-t border-rule-dark">
+          {speciality.claimCovers.map((item) => (
+            <li class="border-b border-rule-dark py-4 font-heading text-h3 font-medium">{item.title}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </Section>
+
+  {/* 4. Other areas we act in (the core practice is above, not in this list) */}
+  <Section surface="surface-2" labelledby="help-heading">
+    <div class="mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
+      <h2 id="help-heading" class="font-heading text-h1 font-semibold">
+        Other areas we act in
+      </h2>
+      <Button href="/practice-areas/" variant="secondary">
+        See practice areas
+      </Button>
+    </div>
+    <PracticeAreaGroups />
+  </Section>
+
+  {/* 5. Question */}
   <Section size="statement" surface="navy" labelledby="question-heading" data-question>
     <h2 id="question-heading" data-question-headline class="max-w-5xl font-heading text-h1 font-semibold">
       What do 25 years in technology mean for your legal matter?
@@ -121,51 +166,14 @@ const jsonLd = {
     </div>
   </Section>
 
-  {/* 4. Practice areas */}
-  <Section surface="surface-2" labelledby="help-heading">
-    <div class="mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
-      <h2 id="help-heading" class="font-heading text-h1 font-semibold">
-        How we can help.
-      </h2>
-      <Button href="/practice-areas/" variant="secondary">
-        See practice areas
-      </Button>
-    </div>
-    <PracticeAreaGroups />
-  </Section>
-
-  {/* 4b. RAF band: informative, not an advert. Reads the featured area from src/data/practice-areas.ts.
-       <!-- TODO: attorney to review RAF and estates copy before launch --> */}
-  {featuredArea?.guide && (
-    <Section aria-label="Road Accident Fund claims">
-      <div class="max-w-3xl">
-        <p class="font-display text-h2 font-light text-pretty">
-          Injured in a road accident? You may be entitled to claim from the Road Accident Fund.
-        </p>
-        <p class="mt-6 max-w-prose text-ink-muted">
-          Drivers, passengers, pedestrians and cyclists, and the dependants of people killed in road
-          accidents, may be able to claim for medical costs, lost earnings and loss of support.
-        </p>
-        <a
-          href={featuredArea.guide.href}
-          class="link mt-6 inline-flex min-h-11 items-center gap-2 font-medium"
-        >
-          Read the guide to RAF claims
-          <Icon icon={faArrowRight} class="size-3.5" />
-        </a>
-      </div>
-    </Section>
-  )}
-
-  {/* 5. Director: hidden until confirmed. To restore, uncomment this block and the Director import.
-       It then sits between the RAF band and "How we work": give one of them the grey surface so two
-       plain sections do not merge.
+  {/* 6. Director: hidden until confirmed. To restore, uncomment this block and the Director import.
+       It sits on the plain surface between the navy question section and the grey "How we work".
   <Section size="statement" aria-label="The director">
     <Director />
   </Section>
   */}
 
-  {/* 6. How we work */}
+  {/* 7. How we work */}
   <Section surface="surface-2" labelledby="process-heading">
     <h2 id="process-heading" class="mb-12 font-heading text-h1 font-semibold md:mb-16">
       How we work
@@ -182,7 +190,7 @@ const jsonLd = {
     )}
   </Section>
 
-  {/* 7. Insights: hidden until confirmed. To restore, uncomment this block, the InsightRow and
+  {/* 8. Insights: hidden until confirmed. To restore, uncomment this block, the InsightRow and
        getPublishedInsights imports and the `latest` query in the frontmatter.
   <Section labelledby="insights-heading">
     <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -201,6 +209,6 @@ const jsonLd = {
   </Section>
   */}
 
-  {/* 8. Contact */}
+  {/* 9. Contact */}
   <ContactBand />
 </BaseLayout>

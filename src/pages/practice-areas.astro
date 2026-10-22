@@ -1,10 +1,15 @@
 ---
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import Button from "../components/Button.astro";
-import Icon from "../components/Icon.astro";
 import ContactBand from "../components/ContactBand.astro";
 import Container from "../components/Container.astro";
-import { areaBySlug, practiceAreaList, practiceAreas, practiceGroups } from "../data/practice-areas";
+import {
+  areaBySlug,
+  practiceAreaList,
+  practiceAreas,
+  practiceGroups,
+  speciality,
+} from "../data/practice-areas";
+import Section from "../components/Section.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
@@ -17,7 +22,29 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <h1 data-reveal-heading class="max-w-4xl font-heading text-h1 font-semibold">
       Practice areas
     </h1>
-    <p class="mt-8 max-w-prose text-ink-muted">
+  </Container>
+
+  {/* Core practice, above and apart from the grouped areas.
+      <!-- TODO: attorney to review RAF and estates copy before launch --> */}
+  <Section surface="navy" labelledby="core-heading">
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-8">
+      <div class="lg:col-span-8">
+        <h2 id="core-heading" class="font-heading text-h1 font-semibold">
+          Our core practice: {speciality.label}
+        </h2>
+        <p class="mt-6 max-w-prose text-on-dark-muted">{speciality.summary}</p>
+        <div class="mt-10">
+          <Button href={speciality.href} tone="dark">
+            Read the full guide to RAF claims
+          </Button>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Container class="pt-20 pb-6 md:pt-24">
+    <h2 class="font-heading text-h1 font-semibold">Other areas we act in</h2>
+    <p class="mt-6 max-w-prose text-ink-muted">
       Grouped by who the client usually is. Each area lists the matters we most often handle.
     </p>
   </Container>
@@ -80,25 +107,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
               <article id={area.slug} data-area class="border-b border-rule py-12 md:py-16">
                 <h3 class="font-heading text-h1 font-semibold">{area.name}</h3>
                 <p class="mt-6 max-w-prose">{area.summary}</p>
-                {area.guide && (
-                  <a
-                    href={area.guide.href}
-                    class="link mt-6 inline-flex min-h-11 items-center gap-2 font-medium"
-                  >
-                    {area.guide.label}
-                    <Icon icon={faArrowRight} class="size-3.5" />
-                  </a>
-                )}
-                {area.typicalMatters && (
-                  <>
-                    <h4 class="mt-10 text-small font-medium text-ink-muted">Typical matters</h4>
-                    <ul class="mt-4 flex max-w-prose flex-col border-t border-rule">
-                      {area.typicalMatters.map((m) => (
-                        <li class="border-b border-rule py-3">{m}</li>
-                      ))}
-                    </ul>
-                  </>
-                )}
+                <h4 class="mt-10 text-small font-medium text-ink-muted">Typical matters</h4>
+                <ul class="mt-4 flex max-w-prose flex-col border-t border-rule">
+                  {area.typicalMatters.map((m) => (
+                    <li class="border-b border-rule py-3">{m}</li>
+                  ))}
+                </ul>
                 {area.related && (
                   <p class="mt-6 max-w-prose">
                     {area.related.lead} See{" "}

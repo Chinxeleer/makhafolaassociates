@@ -1,5 +1,6 @@
 import { attachHeroVideo, detachHeroVideo } from "../components/hero-video";
 import { staggerLists } from "../components/lists";
+import { revealLinesOnScroll } from "../reveal";
 import { revealPortrait } from "../components/portrait";
 import { revealSteps } from "../components/steps";
 import { animateTimeline } from "../components/timeline";
@@ -53,6 +54,10 @@ export function init(container: HTMLElement): void {
 
     // Practice-area link lists: items stagger in, per group.
     staggerLists(container, "[data-practice-list]");
+
+    // Core practice section: heading lines rise in; the "what a claim can cover" list staggers.
+    revealLinesOnScroll(container);
+    staggerLists(container);
 
     revealPortrait(container);
     animateTimeline(container);

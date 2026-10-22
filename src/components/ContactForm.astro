@@ -1,5 +1,5 @@
 ---
-import { practiceGroups } from "../data/practice-areas";
+import { practiceGroups, speciality } from "../data/practice-areas";
 import { site } from "../data/site";
 import Button from "./Button.astro";
 import EmailLink from "./EmailLink.astro";
@@ -116,6 +116,7 @@ const error = "mt-2 text-small font-medium text-gold-700";
       </label>
       <select id="contact-area" name="area" class={field}>
         <option value="">Not sure yet</option>
+        <option value={speciality.slug}>{speciality.formLabel}</option>
         {practiceGroups.map((group) => (
           <optgroup label={group.name}>
             {group.areas.map((area) => (
@@ -125,6 +126,39 @@ const error = "mt-2 text-small font-medium text-gold-700";
         ))}
       </select>
     </div>
+
+    {/* Road Accident Fund details. Shown by default (so they exist without JavaScript); the form script hides
+        them unless the RAF option is selected and announces them when they appear. */}
+    <div data-raf-fields data-raf-slug={speciality.slug} class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+      <div>
+        <label for="contact-accident-date" class={label}>
+          Date of the accident <span class={hint}>(optional)</span>
+        </label>
+        <input
+          id="contact-accident-date"
+          name="accidentDate"
+          type="date"
+          class={field}
+          aria-describedby="error-accidentDate"
+        />
+        <p id="error-accidentDate" data-error-for="accidentDate" class={error} hidden></p>
+      </div>
+      <div>
+        <label for="contact-police-case" class={label}>
+          Police case number <span class={hint}>(if you have it)</span>
+        </label>
+        <input
+          id="contact-police-case"
+          name="policeCase"
+          type="text"
+          autocomplete="off"
+          class={field}
+          aria-describedby="error-policeCase"
+        />
+        <p id="error-policeCase" data-error-for="policeCase" class={error} hidden></p>
+      </div>
+    </div>
+    <p data-raf-announce aria-live="polite" class="sr-only"></p>
 
     <div>
       <label for="contact-message" class={label}>

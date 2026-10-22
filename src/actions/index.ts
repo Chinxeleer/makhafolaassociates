@@ -19,6 +19,16 @@ export const contactSchema = z.object({
     .string()
     .optional()
     .refine((v) => !v || Boolean(areaBySlug(v)), "Choose a practice area from the list."),
+  // Road Accident Fund details (optional; the form only sends them when the RAF option is chosen).
+  accidentDate: z
+    .string()
+    .optional()
+    .refine((v) => !v || /^\d{4}-\d{2}-\d{2}$/.test(v), "Enter the date of the accident as a date.")
+    .refine(
+      (v) => !v || v <= new Date().toISOString().slice(0, 10),
+      "Enter a date that is not in the future.",
+    ),
+  policeCase: z.string().trim().max(60, "Enter a police case number of up to 60 characters.").optional(),
   message: z
     .string()
     .trim()
@@ -53,6 +63,8 @@ export const server = {
         `Email: ${input.email}`,
         `Phone: ${input.phone || "Not given"}`,
         `Practice area: ${(input.area && areaBySlug(input.area)?.name) || "Not chosen"}`,
+        ...(input.accidentDate ? [`Date of the accident: ${input.accidentDate}`] : []),
+        ...(input.policeCase ? [`Police case number: ${input.policeCase}`] : []),
         "",
         input.message,
         "",

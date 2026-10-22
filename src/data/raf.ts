@@ -1,17 +1,13 @@
 // TODO: attorney to review RAF and estates copy before launch.
-// Content for the Road Accident Fund guide (/practice-areas/road-accident-fund/). The page and its FAQPage
-// structured data both read from here, so they can never disagree.
+// Content for the Road Accident Fund guide (/road-accident-fund/). It is assembled into `speciality` in
+// src/data/practice-areas.ts; the page and its FAQPage structured data both read from there.
 //
 // Legal Practice Council: no outcomes, amounts or success rates; no pressure or urgency language; no fee
 // offers unless confirmed in src/data/site.ts; no comparisons with other firms or RAF "agents".
 
-import { areaBySlug } from "./practice-areas";
 import { site } from "./site";
 
-export const rafArea = areaBySlug("road-accident-fund")!;
-
 export const rafSeo = {
-  title: `${rafArea.name} Attorney in Pretoria`,
   description:
     "Road Accident Fund claims in Pretoria: who can claim, what a claim can cover, how the process works and what to bring to your first consultation.",
 };
@@ -91,6 +87,21 @@ function feeAnswer(): string {
   return parts.join(" ");
 }
 
+export const whyTheFirm = [
+  {
+    title: "Road Accident Fund claims are the core of our practice.",
+    body: "This is the work we do every day, so we know the Fund's requirements, forms and procedures and how a claim moves through them.",
+  },
+  {
+    title: "A background in risk management.",
+    body: "Meshack Makhafola brings over 25 years of senior experience in risk management and information technology. Claims are assessed methodically and evidence is gathered with care.",
+  },
+  {
+    title: "A structured, documented process.",
+    body: "Every claim follows clear steps with written records, and you receive regular updates in plain language about where it stands.",
+  },
+];
+
 export const rafFaq = [
   {
     question: "Do I need a lawyer to claim from the RAF?",
@@ -111,6 +122,11 @@ export const rafFaq = [
     question: "Can I claim if a family member died in an accident?",
     answer:
       "Yes. People who depended on the person who died for financial support, such as a spouse or children, may claim for loss of support. Reasonable funeral costs can also be claimed.",
+  },
+  {
+    question: "What if the RAF rejects or underpays my claim?",
+    answer:
+      "If the Fund rejects a claim, or makes an offer that does not fairly cover the losses, the claim can be taken further, including by issuing summons and asking a court to decide. Time limits apply to this step too, so it should be discussed with an attorney promptly.",
   },
   {
     question: "What does it cost?",

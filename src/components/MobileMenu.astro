@@ -4,7 +4,8 @@ import { faPhone, faXmark } from "@fortawesome/free-solid-svg-icons";
 import Icon from "./Icon.astro";
 import Logo from "./Logo.astro";
 import Container from "./Container.astro";
-import { nav, site } from "../data/site";
+import { nav } from "../data/nav";
+import { site } from "../data/site";
 ---
 
 <dialog
@@ -32,21 +33,20 @@ import { nav, site } from "../data/site";
     <Container class="flex flex-1 flex-col justify-between gap-12 overflow-y-auto pt-10 pb-8">
       <nav aria-label="Mobile">
         <ul class="flex flex-col gap-2">
-          <li data-menu-item>
-            <a
-              href="/"
-              data-menu-link
-              class="inline-flex min-h-11 items-center font-heading text-h1 font-medium"
-            >
-              Home
-            </a>
-          </li>
-          {nav.map((item) => (
+          {/* The core practice first and largest, then Home and the rest of the navigation. */}
+          {[
+            ...nav.filter((i) => i.primary),
+            { label: "Home", href: "/" },
+            ...nav.filter((i) => !i.primary),
+          ].map((item) => (
             <li data-menu-item>
               <a
                 href={item.href}
                 data-menu-link
-                class="inline-flex min-h-11 items-center font-heading text-h1 font-medium"
+                class:list={[
+                  "inline-flex min-h-11 items-center font-heading font-medium",
+                  "primary" in item && item.primary ? "mb-2 text-display font-semibold" : "text-h1",
+                ]}
               >
                 {item.label}
               </a>

@@ -20,6 +20,7 @@ let turnstileLoading: Promise<Turnstile> | null = null;
 let widgetId: string | null = null;
 let form: HTMLFormElement | null = null;
 let onSubmit: ((e: SubmitEvent) => void) | null = null;
+let onAreaChange: (() => void) | null = null;
 
 function loadTurnstile(): Promise<Turnstile> {
   if (window.turnstile) return Promise.resolve(window.turnstile);
@@ -37,12 +38,15 @@ function loadTurnstile(): Promise<Turnstile> {
   return turnstileLoading;
 }
 
-type FieldName = "name" | "email" | "phone" | "message" | "consent" | "turnstile";
+type FieldName =
+  "name" | "email" | "phone" | "accidentDate" | "policeCase" | "message" | "consent" | "turnstile";
 
 const MESSAGES = {
   name: "Enter your name.",
   email: "Enter an email address in the format name@example.com.",
   phone: "Enter a phone number using digits, spaces and +.",
+  accidentDate: "Enter a date that is not in the future.",
+  policeCase: "Enter a police case number of up to 60 characters.",
   message: "Tell us a little more about your matter (at least 10 characters).",
   consent: "Confirm that we may use your details to respond.",
   turnstile: "Complete the security check.",
@@ -58,14 +62,25 @@ function validate(f: HTMLFormElement): Partial<Record<FieldName, string>> {
   if (name.length < 2) errors.name = MESSAGES.name;
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = MESSAGES.email;
   if (phone && !/^[0-9+()\s-]*$/.test(phone)) errors.phone = MESSAGES.phone;
+  // Optional RAF details: only submitted (enabled) while the RAF option is selected.
+  const accidentDate = String(data.get("accidentDate") ?? "");
+  if (accidentDate && accidentDate > new Date().toISOString().slice(0, 10))
+    errors.accidentDate = MESSAGES.accidentDate;
+  if (String(data.get("policeCase") ?? "").trim().length > 60) errors.policeCase = MESSAGES.policeCase;
   if (message.length < 10) errors.message = MESSAGES.message;
   if (!data.get("consent")) errors.consent = MESSAGES.consent;
   if (!String(data.get("cf-turnstile-response") ?? "")) errors.turnstile = MESSAGES.turnstile;
   return errors;
 }
 
+const FIELD_IDS: Partial<Record<FieldName, string>> = {
+  turnstile: "contact-turnstile",
+  accidentDate: "contact-accident-date",
+  policeCase: "contact-police-case",
+};
+
 function fieldId(name: FieldName) {
-  return name === "turnstile" ? "contact-turnstile" : `contact-${name}`;
+  return FIELD_IDS[name] ?? `contact-${name}`;
 }
 
 function showErrors(f: HTMLFormElement, errors: Partial<Record<FieldName, string>>) {
@@ -144,6 +159,24 @@ export function initContactForm(container: HTMLElement): void {
   const match = area && select && Array.from(select.options).find((o) => o.value === area || o.text === area);
   if (select && match) select.value = match.value;
 
+  // RAF details appear only while the RAF option is selected. Hidden fields are disabled, so they are not
+  // submitted; screen readers hear when they appear.
+  const rafFields = f.querySelector<HTMLElement>("[data-raf-fields]");
+  const announcer = f.querySelector<HTMLElement>("[data-raf-announce]");
+  if (select && rafFields) {
+    const syncRafFields = (announce: boolean) => {
+      const on = select.value === rafFields.dataset.rafSlug;
+      rafFields.hidden = !on;
+      rafFields.querySelectorAll("input").forEach((input) => (input.disabled = !on));
+      if (announcer)
+        announcer.textContent =
+          on && announce ? "Two optional fields added: date of the accident and police case number." : "";
+    };
+    syncRafFields(false);
+    onAreaChange = () => syncRafFields(true);
+    select.addEventListener("change", onAreaChange);
+  }
+
   const slot = f.querySelector<HTMLElement>("[data-turnstile]");
   if (slot) {
     loadTurnstile()
@@ -215,6 +248,8 @@ export function initContactForm(container: HTMLElement): void {
 
 export function destroyContactForm(): void {
   if (form && onSubmit) form.removeEventListener("submit", onSubmit);
+  if (form && onAreaChange) form.querySelector("#contact-area")?.removeEventListener("change", onAreaChange);
+  onAreaChange = null;
   if (widgetId && window.turnstile) window.turnstile.remove(widgetId);
   widgetId = null;
   onSubmit = null;

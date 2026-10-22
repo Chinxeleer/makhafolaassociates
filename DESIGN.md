@@ -1,5 +1,9 @@
 # Design system
 
+**Positioning:** A Pretoria firm whose core practice is Road Accident Fund claims, led by an attorney with 25 years in technology and risk, also acting in family, estates, business, technology and dispute matters.
+
+Road Accident Fund claims (`speciality` in `src/data/practice-areas.ts`) are rendered above and apart from the grouped practice areas: first in the navigation (same link style, gold active indicator), a navy section on the home page, a navy block at the top of the practice areas page, and a top-level page at `/road-accident-fund/`. They are never rendered as one item inside the grouped lists. Navy sections never sit back to back.
+
 All tokens live in `src/styles/global.css` (`@theme`) and `src/scripts/motion.ts`. Nothing outside these definitions is allowed: no arbitrary Tailwind values (except token references such as `z-(--z-header)`), no `<style>` blocks, no default Tailwind palette (reset with `--color-*: initial`).
 
 ## Colour: Committed strategy

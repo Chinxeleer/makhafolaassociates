@@ -39,17 +39,20 @@ Everything here is a placeholder or an unconfirmed fact. Nothing on the site was
 - [ ] **Insight articles.** The three articles in `src/content/insights/` are placeholders. Rewrite, approve or set `draft: true`.
 - [ ] **Privacy notice** (`src/pages/privacy.astro`): POPIA template, needs **legal review by the firm**, including the retention periods and the name of the Information Officer.
 
-## Road Accident Fund and Wills & Estates (attorney review before launch)
+## Road Accident Fund (core practice) and Wills & Estates: attorney review before launch
 
+- [ ] **Confirm the "core practice" wording.** TODO: confirm with the firm whether "speciality" wording is acceptable under the LPC Code of Conduct. The site describes RAF claims as the firm's "core practice" and never as a "specialist" or "expert" service; `speciality` is only an internal field name.
 - [ ] **Review all RAF and estates copy.** Marked `TODO: attorney to review RAF and estates copy before launch`:
-  - `src/data/practice-areas.ts`: Road Accident Fund Claims and Wills & Estates entries, and the Family Law changes.
-  - `src/data/raf.ts`: who can claim, what a claim can cover, the four process steps, what to bring, and the five FAQ answers (also published as FAQPage structured data).
-  - `src/pages/index.astro`: the home RAF band line and supporting sentence.
+  - `src/data/practice-areas.ts`: the `speciality` summary, the Wills & Estates entry, and the Family Law changes (parental rights, link to Wills & Estates).
+  - `src/data/raf.ts`: who can claim, what a claim can cover, the four process steps, what to bring, "Why the firm", and the six FAQ answers (also published as FAQPage structured data).
+  - `src/pages/index.astro`: the hero supporting line and the home RAF section ("Road Accident Fund claims are the core of our practice." and its two sentences).
+  - `src/pages/practice-areas.astro`: the RAF block at the top ("Our core practice: Road Accident Fund claims").
 - [ ] **Verify the RAF time limits** in `src/data/raf.ts` (`timeLimits.items`: 3 years identified vehicle, 2 years hit-and-run, 5 years to serve summons) against the current RAF Act and regulations, then set `timeLimits.verified: true`. Until then the page shows a neutral sentence instead of the numbers.
 - [ ] **Confirm fee offers** in `src/data/site.ts`. Both default to `false`, and no fee offer appears anywhere until set:
   - `freeConsultation`: adds "The first consultation is free." to the RAF FAQ answer on cost.
   - `offersContingency`: adds that outcome-based fees are governed by the Contingency Fees Act.
-- [ ] **Placeholder article** `src/content/insights/how-a-road-accident-fund-claim-works.md` is a draft outline (`draft: true`, not published). Write it, then set `draft: false`.
+- [ ] **Placeholder articles** (both `draft: true`, not published): `src/content/insights/how-a-road-accident-fund-claim-works.md` and `src/content/insights/what-to-do-after-a-road-accident.md`. Write them, then set `draft: false`.
+- [ ] **Contact form RAF fields.** "Date of the accident" and "Police case number" are collected only when the RAF option is chosen, and are included in the enquiry email. Confirm the privacy notice covers them.
 
 ## Services
 

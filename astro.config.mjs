@@ -17,6 +17,12 @@ export default defineConfig({
   integrations: [
     sitemap({
       filter: (page) => !page.includes("/404"),
+      // Home first, then the core practice (Road Accident Fund claims), then everything else.
+      serialize(item) {
+        const path = new URL(item.url).pathname;
+        item.priority = path === "/" ? 1 : path === "/road-accident-fund/" ? 0.9 : 0.7;
+        return item;
+      },
     }),
   ],
   image: {

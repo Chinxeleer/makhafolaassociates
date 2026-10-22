@@ -3,19 +3,29 @@
 // Plain-language summaries of each area as practised in South Africa. Conservative by design:
 // no outcomes, no superlatives, no claims beyond what the area covers.
 //
-// Every list of practice areas on the site (home, practice areas page, contact form, structured data)
-// reads from this file. Never hard-code an area name elsewhere.
+// Road Accident Fund claims are the firm's core practice. They are modelled separately as `speciality`, so
+// no component can render them as one item in the grouped lists. Visible copy says "core practice", "main
+// area of practice" or "focus", never "specialist" or "expert" (Legal Practice Council restriction).
+//
+// Every list of practice areas on the site (home, practice areas page, contact form, structured data,
+// footer, navigation) reads from this file. Never hard-code an area name elsewhere.
+
+import {
+  claimCovers,
+  rafFaq,
+  rafSeo,
+  rafSteps,
+  timeLimits,
+  whatToBring,
+  whoCanClaim,
+  whyTheFirm,
+} from "./raf";
 
 export interface PracticeArea {
   slug: string;
   name: string;
   summary: string;
-  /** Omitted for areas with their own guide page, which carries the detail. */
-  typicalMatters?: string[];
-  /** The firm's most common matter type: given more prominence in lists. */
-  featured?: boolean;
-  /** A dedicated guide page for this area. */
-  guide?: { href: string; label: string };
+  typicalMatters: string[];
   /** A pointer to a related area, rendered as "<lead> See <area name>." */
   related?: { lead: string; slug: string };
 }
@@ -26,35 +36,31 @@ export interface PracticeGroup {
   areas: PracticeArea[];
 }
 
-// Grouped by who the client is. Injury & Claims comes first: RAF claims are the firm's most common matter.
+/** The firm's core practice. Rendered above and apart from the grouped areas, everywhere. */
+export const speciality = {
+  slug: "road-accident-fund",
+  name: "Road Accident Fund Claims",
+  shortName: "RAF claims",
+  /** Main navigation label. */
+  navLabel: "RAF Claims",
+  /** Contact form option label. */
+  formLabel: "Road Accident Fund claim",
+  /** Footer and running-text label. */
+  label: "Road Accident Fund claims",
+  href: "/road-accident-fund/",
+  summary:
+    "If you were injured in a road accident in South Africa, or lost a family member who supported you, you may be able to claim compensation from the Road Accident Fund. We handle the claim from lodgement to settlement or court.",
+  seo: rafSeo,
+  whoCanClaim,
+  claimCovers,
+  steps: rafSteps,
+  whatToBring,
+  timeLimits,
+  whyTheFirm,
+  faq: rafFaq,
+};
+
 export const practiceGroups: PracticeGroup[] = [
-  {
-    slug: "injury-claims",
-    name: "Injury & Claims",
-    areas: [
-      {
-        slug: "road-accident-fund",
-        name: "Road Accident Fund Claims",
-        featured: true,
-        summary:
-          "If you were injured in a road accident in South Africa, or lost a family member who supported you, you may be able to claim compensation from the Road Accident Fund. We handle the claim from lodgement to settlement or court.",
-        guide: { href: "/practice-areas/road-accident-fund/", label: "Read the full guide to RAF claims" },
-      },
-      {
-        // Slug unchanged so existing links to /practice-areas/#medical-law keep working.
-        slug: "medical-law",
-        name: "Medical Law",
-        summary:
-          "Legal questions that arise in healthcare, including patients' rights, consent and claims where treatment may have caused harm.",
-        typicalMatters: [
-          "Assessing a possible medical negligence claim",
-          "Obtaining medical records",
-          "Informed consent and patients' rights questions",
-          "Disputes with medical schemes",
-        ],
-      },
-    ],
-  },
   {
     slug: "personal-family",
     name: "Personal & Family",
@@ -110,6 +116,18 @@ export const practiceGroups: PracticeGroup[] = [
           "Appeals against refused applications",
           "Asylum and refugee status applications and appeals",
           "Matters involving detention or deportation",
+        ],
+      },
+      {
+        slug: "medical-law",
+        name: "Medical Law",
+        summary:
+          "Legal questions that arise in healthcare, including patients' rights, consent and claims where treatment may have caused harm.",
+        typicalMatters: [
+          "Assessing a possible medical negligence claim",
+          "Obtaining medical records",
+          "Informed consent and patients' rights questions",
+          "Disputes with medical schemes",
         ],
       },
     ],
@@ -194,14 +212,13 @@ export const practiceGroups: PracticeGroup[] = [
 
 export const practiceAreas: PracticeArea[] = practiceGroups.flatMap((g) => g.areas);
 
-export const areaBySlug = (slug: string): PracticeArea | undefined =>
-  practiceAreas.find((a) => a.slug === slug);
+/** The area (or the speciality) with this slug. Used by the contact form and its Action. */
+export const areaBySlug = (slug: string): { slug: string; name: string } | undefined =>
+  slug === speciality.slug ? speciality : practiceAreas.find((a) => a.slug === slug);
 
-/** The featured area (RAF claims), used for the home band and list prominence. */
-export const featuredArea: PracticeArea | undefined = practiceAreas.find((a) => a.featured);
+/** Every area name, core practice first: structured data (knowsAbout) and meta descriptions. */
+export const allAreaNames: string[] = [speciality.name, ...practiceAreas.map((a) => a.name)];
 
-/** "Road Accident Fund Claims, Medical Law, …": for meta descriptions, generated so it never drifts. */
-export const practiceAreaList = (): string => {
-  const names = practiceAreas.map((a) => a.name);
-  return `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`;
-};
+/** "Road Accident Fund Claims, Family Law, … and Labour Law", generated so it never drifts. */
+export const practiceAreaList = (): string =>
+  `${allAreaNames.slice(0, -1).join(", ")} and ${allAreaNames.at(-1)}`;

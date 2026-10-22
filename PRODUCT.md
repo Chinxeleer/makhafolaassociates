@@ -10,7 +10,13 @@ Marketing website for a law firm of attorneys in Pretoria, South Africa. The sit
 
 ## Positioning
 
-**A law firm that thinks like an engineer.**
+**A Pretoria firm whose core practice is Road Accident Fund claims, led by an attorney with 25 years in technology and risk, also acting in family, estates, business, technology and dispute matters.**
+
+Road Accident Fund (RAF) claims are the firm's core practice: it handles far more RAF matters than anything else, so RAF is presented above and apart from the other areas everywhere (hero, navigation, home, practice areas page, contact form, structured data). The founding idea still frames the voice: _a law firm that thinks like an engineer_.
+
+**Wording rule:** describe RAF as the firm's "core practice", "main area of practice" or "focus". Never call the firm or the attorney a "specialist" or "expert" (claiming specialist status in advertising is restricted for South African legal practitioners; the firm is to confirm with the LPC Code of Conduct).
+
+**RAF copy is held to stricter Legal Practice Council standards:** no outcomes, amounts or success rates; no pressure, urgency or touting; no fee offers (free consultation, contingency, "no win, no fee") unless confirmed in `src/data/site.ts`; no crash, injury or hospital imagery; no comparisons with other firms or RAF "agents".
 
 The director, Meshack Makhafola, is an admitted Attorney of the High Court of South Africa with 25+ years of senior IT experience (risk management, cybersecurity, cloud and IT operations at blue-chip corporations) and five university degrees spanning science, risk and law.
 

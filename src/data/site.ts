@@ -41,10 +41,3 @@ export const site = {
   offersContingency: false as boolean,
   freeConsultation: false as boolean,
 } as const;
-
-export const nav = [
-  { label: "Practice Areas", href: "/practice-areas/" },
-  { label: "The Firm", href: "/about/" },
-  { label: "Insights", href: "/insights/" },
-  { label: "Contact", href: "/contact/" },
-] as const;

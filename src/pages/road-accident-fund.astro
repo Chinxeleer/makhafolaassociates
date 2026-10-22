@@ -1,66 +1,80 @@
 ---
-// Road Accident Fund guide. All copy comes from src/data/raf.ts and src/data/practice-areas.ts.
-import { faArrowLeft, faCheck, faPlus } from "@fortawesome/free-solid-svg-icons";
-import Button from "../../components/Button.astro";
-import ContactBand from "../../components/ContactBand.astro";
-import Container from "../../components/Container.astro";
-import Icon from "../../components/Icon.astro";
-import Section from "../../components/Section.astro";
-import Steps from "../../components/Steps.astro";
-import {
-  claimCovers,
-  rafArea,
-  rafFaq,
-  rafSeo,
-  rafSteps,
-  timeLimits,
-  whatToBring,
-  whoCanClaim,
-} from "../../data/raf";
-import { site } from "../../data/site";
-import BaseLayout from "../../layouts/BaseLayout.astro";
+// Road Accident Fund claims: the firm's core practice, at a top-level URL. All copy comes from `speciality`
+// in src/data/practice-areas.ts (content in src/data/raf.ts). /practice-areas/road-accident-fund/ 301s here.
+import { faCheck, faPlus } from "@fortawesome/free-solid-svg-icons";
+import Button from "../components/Button.astro";
+import ContactBand from "../components/ContactBand.astro";
+import Container from "../components/Container.astro";
+import Icon from "../components/Icon.astro";
+import Section from "../components/Section.astro";
+import Steps from "../components/Steps.astro";
+import { speciality } from "../data/practice-areas";
+import { site } from "../data/site";
+import BaseLayout from "../layouts/BaseLayout.astro";
 
-const area = rafArea;
+const s = speciality;
+const [whyWide, ...whyNarrow] = s.whyTheFirm;
+const pageUrl = new URL(s.href, site.url).href;
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: rafFaq.map((item) => ({
-    "@type": "Question",
-    name: item.question,
-    acceptedAnswer: { "@type": "Answer", text: item.answer },
-  })),
+  "@graph": [
+    {
+      "@type": "Service",
+      serviceType: s.label,
+      name: s.name,
+      description: s.summary,
+      url: pageUrl,
+      areaServed: site.areaServed,
+      provider: { "@type": "LegalService", "@id": `${site.url}/#firm`, name: site.name, url: site.url },
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: s.faq.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: { "@type": "Answer", text: item.answer },
+      })),
+    },
+  ],
 };
 ---
 
-<BaseLayout title={rafSeo.title} description={rafSeo.description} namespace="practice-raf" jsonLd={jsonLd}>
+<BaseLayout
+  title={`${s.name} Attorneys in Pretoria`}
+  description={s.seo.description}
+  namespace="raf"
+  heroDark
+  jsonLd={jsonLd}
+>
   {/* <!-- TODO: attorney to review RAF and estates copy before launch --> */}
 
-  <Container class="pt-36 pb-16 md:pt-44 md:pb-24">
-    <a href="/practice-areas/" class="link inline-flex min-h-11 items-center gap-2 text-small">
-      <Icon icon={faArrowLeft} class="size-3.5" />
-      All practice areas
-    </a>
-    <h1 data-reveal-heading class="mt-8 max-w-4xl font-heading text-h1 font-semibold">
-      Road Accident Fund claims
-    </h1>
-    <p class="mt-8 max-w-prose text-body">{area.summary}</p>
-    <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
-      <Button href={`/contact/?area=${area.slug}`}>Book a consultation</Button>
-      <Button href={site.whatsapp.href} variant="secondary" target="_blank" rel="noopener">
-        {site.whatsapp.label}
-      </Button>
-    </div>
-  </Container>
+  {/* Heading: navy, the firm's main offer */}
+  <section data-tone="dark" aria-labelledby="raf-heading" class="bg-navy-800 text-on-dark">
+    <Container class="pt-36 pb-20 md:pt-44 md:pb-28">
+      <h1 id="raf-heading" data-reveal-heading class="max-w-4xl font-heading text-h1 font-semibold">
+        Road Accident Fund claims
+      </h1>
+      <p class="mt-8 max-w-prose text-body">{s.summary}</p>
+      <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
+        <Button href={`/contact/?area=${s.slug}`} tone="dark">
+          Book a consultation
+        </Button>
+        <Button href={site.whatsapp.href} variant="secondary" tone="dark" target="_blank" rel="noopener">
+          {site.whatsapp.label}
+        </Button>
+      </div>
+    </Container>
+  </section>
 
   {/* 1. Who can claim: large ruled rows */}
-  <Section surface="surface-2" labelledby="who-heading">
+  <Section labelledby="who-heading">
     <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-8">
       <h2 id="who-heading" class="font-heading text-h2 font-semibold lg:col-span-4">
         Who can claim
       </h2>
       <ul data-stagger-list class="border-t border-rule lg:col-span-7 lg:col-start-6">
-        {whoCanClaim.map((item) => (
+        {s.whoCanClaim.map((item) => (
           <li class="border-b border-rule py-5 font-heading text-h3 font-medium text-pretty">{item}</li>
         ))}
       </ul>
@@ -68,7 +82,7 @@ const jsonLd = {
   </Section>
 
   {/* 2. What a claim can cover: title and explanation side by side */}
-  <Section labelledby="covers-heading">
+  <Section surface="surface-2" labelledby="covers-heading">
     <div class="max-w-3xl">
       <h2 id="covers-heading" class="font-heading text-h2 font-semibold">
         What a claim can cover
@@ -76,7 +90,7 @@ const jsonLd = {
       <p class="mt-4 max-w-prose text-ink-muted">What can be claimed depends on the facts of each claim.</p>
     </div>
     <dl data-stagger-list class="mt-12 border-t border-rule">
-      {claimCovers.map((item) => (
+      {s.claimCovers.map((item) => (
         <div class="grid grid-cols-1 gap-1 border-b border-rule py-6 md:grid-cols-12 md:gap-8">
           <dt class="font-heading text-h3 font-semibold md:col-span-4">{item.title}</dt>
           <dd class="text-ink-muted md:col-span-7 md:col-start-6">{item.body}</dd>
@@ -86,15 +100,15 @@ const jsonLd = {
   </Section>
 
   {/* 3. How we handle a claim: a real sequence, so numbered */}
-  <Section surface="surface-2" labelledby="process-heading">
+  <Section labelledby="process-heading">
     <h2 id="process-heading" class="mb-12 font-heading text-h2 font-semibold md:mb-16">
       How we handle a claim
     </h2>
-    <Steps steps={rafSteps} />
+    <Steps steps={s.steps} />
   </Section>
 
   {/* 4. What to bring: a checklist */}
-  <Section labelledby="bring-heading">
+  <Section surface="surface-2" labelledby="bring-heading">
     <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-8">
       <div class="lg:col-span-5">
         <h2 id="bring-heading" class="font-heading text-h2 font-semibold">
@@ -103,7 +117,7 @@ const jsonLd = {
         <p class="mt-4 max-w-prose text-ink-muted">Bring what you have. We can help you obtain the rest.</p>
       </div>
       <ul data-stagger-list class="flex flex-col gap-4 lg:col-span-6 lg:col-start-7">
-        {whatToBring.map((item) => (
+        {s.whatToBring.map((item) => (
           <li class="flex items-start gap-4 text-h3">
             <Icon icon={faCheck} class="mt-1.5 size-4 text-gold-700" />
             <span>{item}</span>
@@ -114,16 +128,16 @@ const jsonLd = {
   </Section>
 
   {/* 5. Time limits: neutral wording. Numbers render only once an attorney has verified them. */}
-  <Section surface="surface-2" labelledby="limits-heading">
+  <Section labelledby="limits-heading">
     <div class="grid grid-cols-1 gap-8 border-y border-rule py-10 lg:grid-cols-12 lg:gap-8">
       <h2 id="limits-heading" class="font-heading text-h2 font-semibold lg:col-span-4">
         Time limits matter
       </h2>
       <div class="lg:col-span-7 lg:col-start-6">
-        {timeLimits.verified ? (
+        {s.timeLimits.verified ? (
           <>
             <ul class="flex flex-col gap-3">
-              {timeLimits.items.map((item) => (
+              {s.timeLimits.items.map((item) => (
                 <li class="max-w-prose">{item}</li>
               ))}
             </ul>
@@ -132,20 +146,20 @@ const jsonLd = {
             </p>
           </>
         ) : (
-          <p class="max-w-prose">{timeLimits.fallback}</p>
+          <p class="max-w-prose">{s.timeLimits.fallback}</p>
         )}
       </div>
     </div>
   </Section>
 
   {/* 6. FAQ: native details/summary, also published as FAQPage structured data */}
-  <Section labelledby="faq-heading">
+  <Section surface="surface-2" labelledby="faq-heading">
     <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-8">
       <h2 id="faq-heading" class="font-heading text-h2 font-semibold lg:col-span-4">
         Questions about RAF claims
       </h2>
       <div class="border-t border-rule lg:col-span-8 lg:col-start-5">
-        {rafFaq.map((item) => (
+        {s.faq.map((item) => (
           <details data-accordion class="group border-b border-rule">
             <summary class="flex min-h-11 cursor-pointer items-start justify-between gap-6 py-5 font-heading text-h3 font-semibold">
               <span>{item.question}</span>
@@ -160,6 +174,31 @@ const jsonLd = {
           </details>
         ))}
       </div>
+    </div>
+  </Section>
+
+  {/* 7. Why the firm: factual reasons only, no outcomes, numbers of claims or amounts */}
+  <Section size="statement" labelledby="why-heading">
+    <h2 id="why-heading" class="max-w-4xl font-heading text-h2 font-semibold">
+      Why {site.shortName}
+    </h2>
+    <div class="mt-12 grid grid-cols-1 gap-12 md:mt-16 lg:grid-cols-12 lg:gap-8">
+      <div class="border-t border-rule pt-6 lg:col-span-6">
+        <h3 class="font-heading text-h2 font-semibold">{whyWide.title}</h3>
+        <p class="mt-6 max-w-prose text-ink-muted">{whyWide.body}</p>
+      </div>
+      {whyNarrow.map((item, i) => (
+        <div
+          class:list={[
+            "border-t border-rule pt-6 lg:col-span-3",
+            i === 0 && "lg:col-start-7 lg:mt-24",
+            i === 1 && "lg:mt-48",
+          ]}
+        >
+          <h3 class="font-heading text-h3 font-semibold">{item.title}</h3>
+          <p class="mt-4 text-small text-ink-muted">{item.body}</p>
+        </div>
+      ))}
     </div>
   </Section>
 

@@ -5,7 +5,9 @@ import { Image } from "astro:assets";
 import logoOnDark from "../assets/images/logo-on-dark.png";
 import Container from "./Container.astro";
 import EmailLink from "./EmailLink.astro";
-import { nav, site } from "../data/site";
+import { nav } from "../data/nav";
+import { speciality } from "../data/practice-areas";
+import { site } from "../data/site";
 
 const year = new Date().getFullYear();
 ---
@@ -57,7 +59,7 @@ const year = new Date().getFullYear();
         {nav.map((item) => (
           <li>
             <a href={item.href} class="link inline-flex min-h-11 items-center">
-              {item.label}
+              {item.primary ? speciality.label : item.label}
             </a>
           </li>
         ))}

@@ -1,10 +1,10 @@
 ---
-// Home "How we can help": every group and area from src/data/practice-areas.ts.
-// The featured area (RAF claims) keeps its gold underline at rest; the others draw it on hover.
+// Home "Other areas we act in": the grouped areas from src/data/practice-areas.ts. The core practice
+// (Road Accident Fund claims) is not part of the groups; it has its own section above.
 import { practiceGroups } from "../data/practice-areas";
 ---
 
-<div class="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-x-8 md:gap-y-16">
+<div class="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8">
   {practiceGroups.map((group) => (
     <div>
       <h3 class="mb-6 border-b border-rule pb-4 text-small font-medium text-ink-muted">{group.name}</h3>
@@ -12,19 +12,14 @@ import { practiceGroups } from "../data/practice-areas";
         {group.areas.map((area) => (
           <li>
             <a
-              href={area.guide?.href ?? `/practice-areas/#${area.slug}`}
-              class="group relative inline-flex min-h-11 items-center font-heading text-h3 font-medium text-ink md:text-h2"
+              href={`/practice-areas/#${area.slug}`}
+              class="group relative inline-flex min-h-11 items-center font-heading text-h3 font-medium text-ink lg:text-h2"
             >
               <span class="relative">
                 {area.name}
                 <span
                   aria-hidden="true"
-                  class:list={[
-                    "absolute inset-x-0 -bottom-1 origin-left bg-gold-700 transition-transform duration-(--dur-fast) ease-out-quart",
-                    area.featured
-                      ? "h-0.5 scale-x-100"
-                      : "h-px scale-x-0 group-hover:scale-x-100 group-focus-visible:scale-x-100",
-                  ]}
+                  class="absolute inset-x-0 -bottom-1 h-px origin-left scale-x-0 bg-gold-700 transition-transform duration-(--dur-fast) ease-out-quart group-hover:scale-x-100 group-focus-visible:scale-x-100"
                 />
               </span>
             </a>
